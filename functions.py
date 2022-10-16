@@ -95,26 +95,26 @@ def startmenu(currentlng):
                 print(f"{BColors.CRED2}ERROR!\nInput int from available options.")
             if startmenuoption == 1:
                 spacing()
-                print(f"{BColors.CGREENBG2}option 1{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
+                print(f"{BColors.CGREYBG}option 1{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
                 #new_game(currentlng)
                 return
             elif startmenuoption == 2:
                 spacing()
-                print(f"{BColors.CGREENBG2}option 2{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
+                print(f"{BColors.CGREYBG}option 2{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
                 #options(currentlng)
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")  #TODO create options.
                 if startmenuoption == "":
                     continue
             elif startmenuoption == 3:
                 spacing()
-                print(f"{BColors.CGREENBG2}option 3{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
+                print(f"{BColors.CGREYBG}option 3{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
                 #gamecredits(currentlng)
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")
                 if startmenuoption == "":
                     continue
             elif startmenuoption == 4:
                 spacing()
-                print(f"{BColors.CGREENBG2}option 4{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
+                print(f"{BColors.CGREYBG}option 4{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
                 #scoreboarddisplay()
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")
                 if startmenuoption == "":
