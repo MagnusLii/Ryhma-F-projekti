@@ -194,8 +194,6 @@ def clear_data():
     cursor(query)
     query = "DELETE FROM game;"
     cursor(query)
-    query = "DELETE FROM goal;"
-    cursor(query)
 
 
 def player_setup(lng, numplayers):
@@ -235,6 +233,7 @@ def player_quer():
 
 
 def random_goal_gen(goalnum):
+    cursor("DELETE FROM goal;")
     tracknum = 1
     if tracknum > goalnum:
         return
