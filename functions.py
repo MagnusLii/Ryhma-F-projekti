@@ -236,7 +236,7 @@ def random_goal_gen(goalnum):
     cursor("DELETE FROM goal;")
     tracknum = 1
     if tracknum > goalnum:
-        return
+        break
     for i in range(goalnum):
         airportid = random.randint(1, 70942)  # Randomly selects a goal ID.
         query = f'''SELECT type, id FROM airport  
