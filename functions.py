@@ -148,6 +148,7 @@ def scoreboarddisplay():
                 ;'''
     results = cursor_fetchall(query)
     placement = 1
+    print(f"{BColors.OKCYAN}Current leaderboard top 10 players.{BColors.ENDC}")
     for row in results:
         print(f"[{placement}]Playername: [{row[0]}]          Score: [{row[1]}] points.")
         placement += 1
