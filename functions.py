@@ -240,7 +240,7 @@ def random_goal_gen(goalnum):
         return
     for i in range(goalnum):
         airportid = random.randint(1, 70942)  # Randomly selects a goal ID.
-        query = f'''SELECT id FROM airport  
+        query = f'''SELECT type, id FROM airport  
                         WHERE id = {airportid}
                         ;'''
         result = cursor_fetchall(query)
