@@ -132,4 +132,4 @@ def menu(currentlng):
         print("[4]Scoreboard")
         print("[0]Quit")
 
-startmenu()
+startmenu(1)
