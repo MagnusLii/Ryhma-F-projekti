@@ -261,8 +261,8 @@ def check_icao(icaocode):
     result = cursor_fetchall(query)
     for row in result:
         if row[0] == "closed":
-            print(f"{BColors.CVIOLET2}Error\n{BColors.ENDC}"
-                  f"{BColors.CVIOLET2}The specified airport is currently closed. {BColors.ENDC}")
+            print(f"{BColors.CRED2}Error\n{BColors.ENDC}"
+                  f"{BColors.CRED2}The specified airport is currently closed. {BColors.ENDC}")
             return False
     if len(result) == 0:  # True means specified ICAO was found, False means incorrect ICAO.
         return False
