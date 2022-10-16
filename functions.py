@@ -2,16 +2,19 @@
 # Required packages, mysql-connector-python, geopy
 
 # Imports
+import functions
 import connection
 import random
 import math
 import time
-import mysql.connector
 import geopy.distance
 import datetime
 
 # Vars
-currentlng = 1
+currentlng = 1  # 1 = English,
+playercount = 1  # Number of players.
+numofgoals = 4
+
 
 class BColors:
     HEADER = '\033[95m'
@@ -69,18 +72,20 @@ class BColors:
     CWHITEBG2 = '\33[107m'
 
 
-def cursor(inp):
+def cursor(query):
     sqlcursor = connection.sqlconnect.cursor()
-    sqlcursor.execute(inp)
+    sqlcursor.execute(query)
 
-def cursor_fetchall(inp):
+
+def cursor_fetchall(query):
     sqlcursor = connection.sqlconnect.cursor()
-    sqlcursor.execute(inp)
+    sqlcursor.execute(query)
     outcome = sqlcursor.fetchall()
     return outcome
 
-def startmenu(currentlng):
-    if currentlng == 1:
+
+def startmenu(lng):
+    if lng == 1:
         startmenuoption = ""
         while True:
             print("\n")
@@ -95,26 +100,26 @@ def startmenu(currentlng):
                 print(f"{BColors.CRED2}ERROR!\nInput int from available options.")
             if startmenuoption == 1:
                 spacing()
-                print(f"{BColors.CGREYBG}option 1{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
-                new_game(currentlng)
+                print(f"{BColors.CGREYBG}option 1{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
+                new_game(lng)
                 return
             elif startmenuoption == 2:
                 spacing()
-                print(f"{BColors.CGREYBG}option 2{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
-                options(currentlng)
-                startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")  #TODO create options.
+                print(f"{BColors.CGREYBG}option 2{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
+                options(lng)
+                startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")  # TODO create options.
                 if startmenuoption == "":
                     continue
             elif startmenuoption == 3:
                 spacing()
-                print(f"{BColors.CGREYBG}option 3{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
-                gamecredits(currentlng)
+                print(f"{BColors.CGREYBG}option 3{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
+                gamecredits(lng)
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")
                 if startmenuoption == "":
                     continue
             elif startmenuoption == 4:
                 spacing()
-                print(f"{BColors.CGREYBG}option 4{BColors.ENDC}")  #TODO Remove before publish, troubleshooting only.
+                print(f"{BColors.CGREYBG}option 4{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
                 scoreboarddisplay()
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")
                 if startmenuoption == "":
@@ -123,22 +128,26 @@ def startmenu(currentlng):
                 print(f"{BColors.OKCYAN}pwease down't weave me :(")
                 exit()
 
+
 def spacing():
     print("\n")
 
-def options(currentlng):
-    if currentlng == 1:
+
+def options(lng):  # TODO add actual language select options
+    if lng == 1:
         print("\n")
         print("[1]Language")
 
-def gamecredits(currentlng):
-    if currentlng == 1:
+
+def gamecredits(lng):  # TODO Redo credits based on these instructions https://www.studiobinder.com/blog/where-credit-is-due-film-credits-order-hierarchy-with-free-film-credits-template/
+    if lng == 1:
         print("\n")
         print("Made by:\n"
               "Misto #1 \n"
               "Magnus \n"
               "Jasper \n"
               "Daniel")
+
 
 def scoreboarddisplay():
     query = f'''SELECT name, score
@@ -152,3 +161,91 @@ def scoreboarddisplay():
     for row in results:
         print(f"[{placement}]Playername: [{row[0]}]          Score: [{row[1]}] points.")
         placement += 1
+
+
+def new_game(lng):
+    clear_data()
+    if lng == 1:
+        print("[1]Singleplayer\n"
+              "[2]Multiplayer")
+        while True:  # Determines number of players from user input.
+            try:
+                userchoice = int(input(f"{BColors.OKCYAN}#: {BColors.ENDC}"))
+                if userchoice == 1:
+                    functions.playercount = 1
+                    spacing()
+                    break
+                elif userchoice == 2:
+                    try:
+                        functions.playercount = int(input(f"{BColors.OKCYAN}Input number of players: {BColors.ENDC}"))
+                        spacing()
+                        break
+                    except ValueError:
+                        print(f"{BColors.CRED2}Please only input numbers.{BColors.ENDC}")
+                        spacing()
+            except ValueError:
+                print(f"{BColors.CRED2}Enter only from specified integer numbers.{BColors.ENDC}")
+                spacing()
+        player_setup(lng, playercount)
+
+
+def clear_data():
+    query = "DELETE FROM goal_reached;"
+    cursor(query)
+    query = "DELETE FROM game;"
+    cursor(query)
+    query = "DELETE FROM goal;"
+    cursor(query)
+
+
+def player_setup(lng, numplayers):
+    i = 1
+    if lng == 1:
+        while i <= numplayers:  # Creates players into database from userinput.
+            playername = input(f"{BColors.OKCYAN}Enter {i} players name: {BColors.ENDC}")
+            startinglocation = input("Enter chosen starting location\n"
+                                     "or leave empty for default.\n"
+                                     f"{BColors.OKCYAN}#: {BColors.ENDC}").upper()
+            if startinglocation == "":
+                startinglocation = "EGCC"
+                spacing()
+            status = check_icao(startinglocation)
+            if status:
+                query = f'''INSERT INTO game(id, co2_consumed, co2_budget, screen_name, location)
+                        VALUES({i}, 0, 10000, "{playername}", "{startinglocation}")
+                        ;'''
+                cursor(query)
+                i += 1
+            elif not status:
+                print(f"{BColors.CRED2}Error! ICAO not found in database list.{BColors.ENDC}")
+                spacing()
+
+def player_quer():
+    query = f'''SELECT game.screen_name, game.location, game.co2_consumed
+                FROM game
+                GROUP BY game.id ASC
+                ;'''
+    templist = cursor_fetchall(query)
+    for row in templist:
+        print(f"Username: {row[0]}, "
+              f"current location: {row[1]}, "
+              f"co2 consumed: {row[2]}, ")
+    spacing()
+
+
+def random_goal_gen(goalnum):
+    for i in range(goalnum):
+        airportid = random.randint(1, 70942)  # Randomly selects a goal ID.
+        query = f'''SELECT id FROM airport  
+                        WHERE id = {airportid}
+                        ;'''
+        result = cursor_fetchall(query)
+        for row in result:
+            if row[0] == "closed":
+                # print("Closed airport in random_goal_gen func.")
+                random_goal_gen()
+        query2 = f'''INSERT INTO goal (id, airportid)
+                    VALUES({SQLfunctions.tracknum}, {airportid})
+                    ;'''
+        cursor(query2)
+        SQLfunctions.tracknum += 1
