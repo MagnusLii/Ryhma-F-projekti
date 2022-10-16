@@ -82,13 +82,13 @@ def cursor_fetchall(inp):
 
 def startmenu(currentlng):
     if currentlng == 1:
-        startmenuoption = 8
+        startmenuoption = ""
         while True:
             menu(currentlng)
             try:
                 startmenuoption = int(input("Enter choice: "))
             except ValueError:
-                print(f"{BColors.CRED2}Input int from available options.")
+                print(f"{BColors.CRED2}ERROR!\nInput int from available options.")
             if startmenuoption == 1:
                 spacing()
                 new_game(currentlng)
@@ -115,13 +115,7 @@ def startmenu(currentlng):
                     startmenuoption = 9
                     continue
             elif startmenuoption == 0:
-                break
-            elif startmenuoption != 1 or startmenuoption != 2 or startmenuoption != 3:
-                print("\n")
-                print("\n")
-                print(f"{BColors.CVIOLET2}INVALID INPUT{BColors.ENDC}")
-                time.sleep(1)
-                continue
+                exit()
 
 def menu(currentlng):
     if currentlng == 1:
