@@ -120,7 +120,34 @@ def startmenu(currentlng):
                 if startmenuoption == "":
                     continue
             elif startmenuoption == 0:
+                print(f"{BColors.OKCYAN}pwease down't weave me :(")
                 exit()
 
 def spacing():
     print("\n")
+
+def options(currentlng):
+    if currentlng == 1:
+        print("\n")
+        print("[1]Language")
+
+def gamecredits(currentlng):
+    if currentlng == 1:
+        print("\n")
+        print("Made by:\n"
+              "Misto #1 \n"
+              "Magnus \n"
+              "Jasper \n"
+              "Daniel")
+
+def scoreboarddisplay():
+    query = f'''SELECT name, score
+                FROM leaderboard
+                ORDER BY score DESC
+                FETCH FIRST 10 ROWS ONLY
+                ;'''
+    results = cursor_fetchall(query)
+    placement = 1
+    for row in results:
+        print(f"[{placement}]Playername: [{row[0]}]          Score: [{row[1]}] points.")
+        placement += 1
