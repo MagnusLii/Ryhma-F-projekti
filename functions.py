@@ -200,7 +200,11 @@ def player_setup(lng, numplayers):
     i = 1
     if lng == 1:
         while i <= numplayers:  # Creates players into database from userinput.
-            playername = input(f"{BColors.OKCYAN}Enter {i} players name: {BColors.ENDC}")
+            playername = ""
+            while playername == "":
+                playername = input(f"{BColors.OKCYAN}Enter {i} players name: {BColors.ENDC}")
+                if playername == "":
+                    print(f"{BColors.CRED2}Input a name.{BColors.ENDC}")
             startinglocation = input("Enter chosen starting location\n"
                                      "or leave empty for default.\n"
                                      f"{BColors.OKCYAN}#: {BColors.ENDC}").upper()
@@ -242,11 +246,9 @@ def random_goal_gen(goalnum):
         result = cursor_fetchall(query)
         for row in result:
             if row[0] == "closed":
-                print(f"{BColors.CRED2}Closed airport in random_goal_gen func.{BColors.ENDC}")
                 random_goal_gen(goalnum)
                 return
         query2 = f'''INSERT INTO goal (id, airportid)
                     VALUES({i+1}, {airportid})
                     ;'''
-        print(f"ID = {i+1}, airportid = {airportid}")
         cursor(query2)
