@@ -220,6 +220,7 @@ def player_setup(lng, numplayers):
                 print(f"{BColors.CRED2}Error! ICAO not found in database list.{BColors.ENDC}")
                 spacing()
 
+
 def player_quer():
     query = f'''SELECT game.screen_name, game.location, game.co2_consumed
                 FROM game
@@ -242,7 +243,7 @@ def random_goal_gen(goalnum):
         result = cursor_fetchall(query)
         for row in result:
             if row[0] == "closed":
-                # print("Closed airport in random_goal_gen func.")
+                print(f"{BColors.CRED2}Closed airport in random_goal_gen func.{BColors.ENDC}")
                 random_goal_gen()
         query2 = f'''INSERT INTO goal (id, airportid)
                     VALUES({SQLfunctions.tracknum}, {airportid})
