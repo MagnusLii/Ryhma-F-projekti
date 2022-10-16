@@ -235,6 +235,9 @@ def player_quer():
 
 
 def random_goal_gen(goalnum):
+    tracknum = 1
+    if tracknum > goalnum:
+        return
     for i in range(goalnum):
         airportid = random.randint(1, 70942)  # Randomly selects a goal ID.
         query = f'''SELECT id FROM airport  
@@ -246,7 +249,7 @@ def random_goal_gen(goalnum):
                 print(f"{BColors.CRED2}Closed airport in random_goal_gen func.{BColors.ENDC}")
                 random_goal_gen()
         query2 = f'''INSERT INTO goal (id, airportid)
-                    VALUES({SQLfunctions.tracknum}, {airportid})
+                    VALUES({tracknum}, {airportid})
                     ;'''
         cursor(query2)
-        SQLfunctions.tracknum += 1
+        tracknum += 1
