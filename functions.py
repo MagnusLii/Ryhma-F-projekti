@@ -251,4 +251,5 @@ def random_goal_gen(goalnum):
                     VALUES({tracknum}, {airportid})
                     ;'''
         cursor(query2)
+        print(f"ID = {tracknum}, airportid = {airportid}")
         tracknum += 1
