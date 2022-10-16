@@ -252,3 +252,19 @@ def random_goal_gen(goalnum):
                     VALUES({i+1}, {airportid})
                     ;'''
         cursor(query2)
+
+
+def check_icao(icaocode):
+    query = f'''SELECT ident FROM airport
+                WHERE ident = "{icaocode}"
+                ;'''
+    result = cursor_fetchall(query)
+    for row in result:
+        if row[0] == "closed":
+            print(f"{BColors.CVIOLET2}Error\n{BColors.ENDC}"
+                  f"{BColors.CVIOLET2}The specified airport is currently closed. {BColors.ENDC}")
+            return False
+    if len(result) == 0:  # True means specified ICAO was found, False means incorrect ICAO.
+        return False
+    else:
+        return True
