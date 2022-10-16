@@ -246,8 +246,8 @@ def random_goal_gen(goalnum):
                 print(f"{BColors.CRED2}Closed airport in random_goal_gen func.{BColors.ENDC}")
                 random_goal_gen(goalnum)
         query2 = f'''INSERT INTO goal (id, airportid)
-                    VALUES({tracknum}, {airportid})
+                    VALUES({i}, {airportid})
                     ;'''
-        print(f"ID = {tracknum}, airportid = {airportid}")
+        print(f"ID = {i}, airportid = {airportid}")
         cursor(query2)
         tracknum += 1
