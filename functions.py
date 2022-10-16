@@ -73,7 +73,6 @@ def cursor(inp):
     sqlcursor = connection.sqlconnect.cursor()
     sqlcursor.execute(inp)
 
-
 def cursor_fetchall(inp):
     sqlcursor = connection.sqlconnect.cursor()
     sqlcursor.execute(inp)
@@ -84,46 +83,44 @@ def startmenu(currentlng):
     if currentlng == 1:
         startmenuoption = ""
         while True:
-            menu(currentlng)
+            print("\n")
+            print("[1]New game")
+            print("[2]Options")
+            print("[3]Credits")
+            print("[4]Scoreboard")
+            print("[0]Quit")
             try:
-                startmenuoption = int(input("Enter choice: "))
+                startmenuoption = int(input(f"{BColors.OKCYAN}Enter choice: "))
             except ValueError:
                 print(f"{BColors.CRED2}ERROR!\nInput int from available options.")
             if startmenuoption == 1:
                 spacing()
-                new_game(currentlng)
+                print(f"{BColors.CGREENBG2}option 1")  #TODO Remove before publish, troubleshooting only.
+                #new_game(currentlng)
                 return
             elif startmenuoption == 2:
-                options(currentlng)
-                nappi = "bruh"
-                nappi = input("Press enter to go back")
-                if nappi == "":
-                    startmenuoption = 9
+                spacing()
+                print(f"{BColors.CGREENBG2}option 2")  #TODO Remove before publish, troubleshooting only.
+                #options(currentlng)
+                startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back")  #TODO create options.
+                if startmenuoption == "":
                     continue
             elif startmenuoption == 3:
-                gamecredits(currentlng)
-                nappi = "bruh"
-                nappi = input("Press enter to go back")
-                if nappi == "":
-                    startmenuoption = 9
+                spacing()
+                print(f"{BColors.CGREENBG2}option 3")  #TODO Remove before publish, troubleshooting only.
+                #gamecredits(currentlng)
+                startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back")
+                if startmenuoption == "":
                     continue
             elif startmenuoption == 4:
-                scoreboarddisplay()
-                nappi = "bruh"
-                nappi = input("Press enter to go back")
-                if nappi == "":
-                    startmenuoption = 9
+                spacing()
+                print(f"{BColors.CGREENBG2}option 4")  #TODO Remove before publish, troubleshooting only.
+                #scoreboarddisplay()
+                startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back")
+                if startmenuoption == "":
                     continue
             elif startmenuoption == 0:
                 exit()
 
-def menu(currentlng):
-    if currentlng == 1:
-        print("\n")
-        print("[1]New game")
-        print("[2]Options")
-        print("[3]Credits")
-        print("[4]Scoreboard")
-        print("[0]Quit")
-
-startmenu(1)
+def spacing():
+    print("\n")
