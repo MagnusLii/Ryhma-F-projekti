@@ -235,9 +235,9 @@ def player_quer():
 def random_goal_gen(goalnum):
     cursor("DELETE FROM goal;")
     tracknum = 1
-    if tracknum > goalnum:
-        return
     for i in range(goalnum):
+        if tracknum > goalnum:
+            return
         airportid = random.randint(1, 70942)  # Randomly selects a goal ID.
         query = f'''SELECT type, id FROM airport  
                         WHERE id = {airportid}
