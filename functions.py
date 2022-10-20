@@ -679,7 +679,7 @@ def movement_calc_time(endloc, aircraftid):
     kmm = float(kmm)
     print(kmm)
     speedkmh = cursor_fetchall(query2)
-    speedkmh = speedkmh[0]
+    speedkmh = str(speedkmh[0])
     print(speedkmh)
     delthese = "[()],.'¨"
     for char in delthese:
