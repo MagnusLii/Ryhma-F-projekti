@@ -493,7 +493,7 @@ def relocate(lng):  # TODO THIS IS FUCKING BROKEN!
         print("Which terminal do you wish to travel to?\n"
               '"Input" its ICAO code.')
         while True:
-            newlocation = input("#: ").upper()
+            newlocation = input(f"{BColors.OKCYAN}#: {BColors.ENDC}").upper()
             if check_icao(newlocation):
                 co2perkm = list_available_aircraft(lng, movement_calc_km(newlocation),
                                                    aircraft_availability_detect(
