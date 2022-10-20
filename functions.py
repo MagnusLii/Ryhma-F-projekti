@@ -769,4 +769,31 @@ def scorecalc():
             endscore = int(endscore)
             endscores.append(endscore)
         trackingnum += 1
-    print(endscores)
+
+
+def scoredisplay():
+    trackingnum = 1
+    for i in range(playercount):
+        query = f'''SELECT screen_name
+                    FROM game
+                    WHERE id = {trackingnum}
+                    ;'''
+        result = cursor_fetchall(query)
+        for row in result:
+            print(f"{row[0]} earned {endscores[i]} points.")
+        trackingnum += 1
+
+
+def savescores():
+    trackingnum = 1
+    for i in range(playercount):
+        query = f'''SELECT screen_name
+                            FROM game
+                            WHERE id = {trackingnum}
+                            ;'''
+        result = cursor_fetchall(query)
+        for row in result:
+            query2 = f'''INSERT INTO leaderboard(name, score)
+                        VALUE("{row[0]}", {endscores[i]})'''
+            cursor(query2)
+        trackingnum += 1
