@@ -689,6 +689,6 @@ def movement_calc_time(endloc, aircraftid):
         speed = speed.replace(char, "")
     speed = int(speed)
     print(speed)
-    timespent = round(int((kmm // speed)))
-    print(timespent)
-    return timespent
+    timespent_min = round(int((kmm // speed) * 60))
+    print(timespent_min)
+    return timespent_min
