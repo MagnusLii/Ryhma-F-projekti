@@ -674,14 +674,14 @@ def movement_calc_time(endloc, aircraftid):
                 ;'''
     distancekm = str(geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc)))
     delthese = "km "
-    for char in delthese:
+    for char in delthese:  # Removes " km" from end of string.
         distancekm = distancekm.replace(char, "")
     distancekm = float(distancekm)
     print(distancekm)
 
-    speedkmh = cursor_fetchall(query2)
-    templist = [speedkmh]
-    speed = str(templist[0])
+    #speedkmh = cursor_fetchall(query2)
+    #templist = [speedkmh]
+    speed = str(cursor_fetchall(query2))
     delthese = "[()],.'¨"
     for char in delthese:
         speed = speed.replace(char, "")
