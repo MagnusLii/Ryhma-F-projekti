@@ -15,7 +15,7 @@ import datetime  # Required! Handles datetime format in/from queries.
 
 # Vars
 currentlng = 1  # 1 = English,
-playercount = 1  # Number of players.
+playercount = 2  # Number of players.
 numofgoals = 4  # Total number of goals generated in game.
 goalturntracker = 0
 activegoal = 1  # For keeping track of the latest player goal. Input from latestgoallookup()
