@@ -829,7 +829,7 @@ def kmfromgoal(currentloc=currentplayer, currentgoal=currentgoalid()):
                      ;''')
     airportid = cursor_fetchall(f'''SELECT goal.airportid
                              FROM goal
-                             WHERE goal.id = {currentgoal}
+                             WHERE goal.id = {currentgoal + 1}
                              ;''')
     print(currentcoords)
     print(airportid)
