@@ -674,9 +674,9 @@ def movement_calc_time(endloc, aircraftid):
                 ;'''
     distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
     print(distancekm)
-    templist = [distancekm]
-    kmm = str(templist[0])
-    kmm = kmm[:6]
+    #templist = [distancekm]
+    #kmm = str(templist[0])
+    kmm = distancekm[:6]
     kmm = float(kmm)
 
     speedkmh = cursor_fetchall(query2)
