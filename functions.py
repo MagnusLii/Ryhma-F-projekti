@@ -836,4 +836,4 @@ def kmfromgoal(currentloc=currentplayer, currentgoal=currentgoalid()):
                                                                      airport.longitude_deg
                                                                      FROM airport
                                                                      WHERE airport.id = {airportid}
-                                                                     ;'''))))
+                                                                     ;''')))
