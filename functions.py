@@ -475,13 +475,13 @@ def findicao(lng):
                 ;'''
         results = cursor_fetchall(query)
         for row in results:
-            print(f'"Name": {row[0]}, '
-                  f'"Type": {row[1]}, '
-                  f'"Continent": {row[2]}, '
-                  f'"Country": {row[3]}, '
-                  f'"RegionISO": {row[5]}, '
-                  f'"Municipality": {row[6]}, '
-                  f'"ICAO": {row[4]}.')
+            print(f'{BColors.CYELLOW}"Name":{BColors.ENDC} {row[0]}, '
+                  f'{BColors.CYELLOW}"Type":{BColors.ENDC} {row[1]}, '
+                  f'{BColors.CYELLOW}"Continent":{BColors.ENDC} {row[2]}, '
+                  f'{BColors.CYELLOW}"Country":{BColors.ENDC} {row[3]}, '
+                  f'{BColors.CYELLOW}"RegionISO":{BColors.ENDC} {row[5]}, '
+                  f'{BColors.CYELLOW}"Municipality":{BColors.ENDC} {row[6]}, '
+                  f'{BColors.CYELLOW}"ICAO":{BColors.ENDC} {row[4]}.')
         return
 
 
