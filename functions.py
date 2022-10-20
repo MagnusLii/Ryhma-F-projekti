@@ -678,8 +678,6 @@ def movement_calc_time(endloc, aircraftid):
     kmm = kmm[:8]
     kmm = float(kmm)
     print(kmm)
-
-
     speedkmh = cursor_fetchall(query2)
     templist = [speedkmh]
     speed = str(templist[0])
