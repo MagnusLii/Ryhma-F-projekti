@@ -20,7 +20,7 @@ ADD COLUMN starttime TIMESTAMP
 DEFAULT CURRENT_TIMESTAMP
 ;
 
-DROP TABLE lentoalukset;
+DROP TABLE lentoalukset
 ;
 
 CREATE TABLE lentoalukset (
