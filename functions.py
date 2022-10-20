@@ -518,8 +518,7 @@ def movement_calc_km(endloc):
                 ;'''
     distancekm = str(geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc)))
     distancekm = distancekm[:8]
-    kmm = kmm[:8]
-    return int(kmm)
+    return int(distancekm)
 
 
 def getcoords(icao):
