@@ -673,11 +673,10 @@ def movement_calc_time(endloc, aircraftid):
                 WHERE lentoalukset.id = "{aircraftid}"
                 ;'''
     distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
-    print(distancekm)
-    #templist = [distancekm]
-    #kmm = str(templist[0])
-    kmm = distancekm[:6]
-    kmm = float(kmm)
+    delthese = "km "
+    for char in delthese:
+        distancekm = distancekm.replace(char, "")
+    distancekm = float(distancekm)
 
     speedkmh = cursor_fetchall(query2)
     templist = [speedkmh]
@@ -686,4 +685,4 @@ def movement_calc_time(endloc, aircraftid):
     for char in delthese:
         speed = speed.replace(char, "")
 
-    return round(int((kmm // int(speed)) * 60))
+    return round(int((distancekm // int(speed)) * 60))
