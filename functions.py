@@ -834,7 +834,7 @@ def kmfromgoal(player=currentplayer, currentgoal=currentgoalid()):
     delthese = "[()],.'¨"
     for char in delthese:
         airportid = airportid.replace(char, "")
-    print(airportid[0])
+    print(airportid)
     goalcoords = cursor_fetchall(f'''SELECT airport.latitude_deg, airport.longitude_deg
                                  FROM airport
                                  WHERE id = {airportid[0]}''')
