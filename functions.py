@@ -239,7 +239,7 @@ def player_setup(lng, numplayers):
 
 
 def player_quer():
-    query = f'''SELECT game.screen_name, game.location, game.co2_consumed
+    query = f'''SELECT game.screen_name, game.location, game.co2_consumed, game.next_turn, game.starttime
                 FROM game
                 GROUP BY game.id ASC
                 ;'''
