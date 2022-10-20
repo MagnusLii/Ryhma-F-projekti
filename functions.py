@@ -696,3 +696,40 @@ def aircraftid_fromco2(co2usage):
     for char in delthese:
         acid = acid.replace(char, "")
     return int(acid)
+
+
+def printallhints():
+    for row in hintsall[currentgoalid()]:
+        if row != "":
+            print(row)
+
+
+def goalcheck(player):
+    query = f'''SELECT airport.id
+                FROM airport, game
+                WHERE game.id = {player}
+                AND game.location = airport.ident
+                ;'''
+    query2 = f'''SELECT airportid, id
+                FROM goal
+                ;'''
+    currentlocid = cursor_fetchall(query)
+    goalids = cursor_fetchall(query2)
+    for j in currentlocid:
+        temp = str(j)
+        delthese = "[()],.'¨"
+        for char in delthese:
+            temp = temp.replace(char, "")
+        currentlocid = temp
+    for row in goalids:
+        query3 = f'''INSERT INTO goal_reached(goal_id, game_id)
+                    VALUES({row[1]}, {currentplayer})
+                    ;'''
+        if str(row[0]) == str(currentlocid):
+            cursor(query3)
+            query4 = f'''UPDATE goal
+                        SET goalreached = 1
+                        WHERE airportid = {currentlocid}
+                        ;'''
+            cursor(query4)  # sets goalreached flag into goals table.
+            SQLfunctions.goalturntracker = 0
