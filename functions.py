@@ -499,10 +499,11 @@ def relocate(lng):  # TODO THIS IS FUCKING BROKEN!
                                                    aircraft_availability_detect(
                                                        currentplayer_currentloc(lng),
                                                        newlocation))
+                print(f"co2perkm = {co2perkm}")
                 distance = movement_calc_km(newlocation)
-                #print(f"distance = {distance}")
+                print(f"distance = {distance}")
                 updateco2(currentplayer, movement_calc_co2(distance, co2perkm))
-                #print(f"updateco2 = {updateco2(currentplayer, movement_calc_co2(distance, co2perkm))}")
+                print(f"updateco2 = {updateco2(currentplayer, movement_calc_co2(distance, co2perkm))}")
                 moveplayer(newlocation, currentplayer)
                 print("You are moving to your destination.")
                 spacing()
