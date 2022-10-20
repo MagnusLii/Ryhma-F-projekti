@@ -502,7 +502,7 @@ def relocate(lng):
                                                        newlocation))
                 if co2perkm == 42069:  # Only true if player chose to exit the functions that return a proper value
                     # before proper assignment
-                    continue
+                    return True
                 distance = movement_calc_km(newlocation)
                 updateco2(currentplayer, movement_calc_co2(distance, co2perkm))
                 moveplayer(newlocation, currentplayer, aircraftid_fromco2(co2perkm))
