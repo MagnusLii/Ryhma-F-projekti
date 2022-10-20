@@ -745,7 +745,10 @@ def gameover():
         print(playercount)
         result = cursor_fetchall(query)
         if len(result) == 4:
+            print("continue")
             continue
         else:
+            print("false")
             return False
+    print("winner")
     return True
