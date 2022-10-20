@@ -487,6 +487,7 @@ def findicao(lng):
 def relocate(lng):
     if lng == 1:
         while True:
+            co2perkm = None
             if co2perkm == 42069:
                 return True
             print("Which terminal do you wish to travel to?\n"
