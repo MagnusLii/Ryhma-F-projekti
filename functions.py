@@ -28,6 +28,7 @@ hintsround1 = ["", "", "", ""]    # etc etc...
 hintsround2 = ["", "", "", ""]
 hintsround3 = ["", "", "", ""]
 hintsall = [hintsround0, hintsround1, hintsround2, hintsround3]
+endscores = []
 
 
 class BColors:
@@ -748,5 +749,24 @@ def gameover():
             continue
         else:
             return False
-    print("winner")
     return True
+
+
+def scorecalc():
+    trackingnum = 1
+    for i in range(playercount):
+        query = f'''SELECT game.co2_consumed, game.starttime, game.next_turn
+                    FROM game
+                    WHERE id = {trackingnum}
+                    ;'''
+        result = cursor_fetchall(query)
+        for row in result:
+            times = row[2] - row[1]
+            times = int(times.total_seconds())
+            co2 = int(row[0])
+            endscore = (math.sqrt((co2 - (420 * (times ** 2))/69) ** 2)) / 42069  # TODO redoscore calc WTF?!?!??!!!!!
+            endscore = round(endscore)
+            endscore = int(endscore)
+            endscores.append(endscore)
+    trackingnum += 1
+    print(endscores)
