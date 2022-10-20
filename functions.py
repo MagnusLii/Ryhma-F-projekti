@@ -682,6 +682,7 @@ def movement_calc_time(endloc, aircraftid):
     #speedkmh = cursor_fetchall(query2)
     #templist = [speedkmh]
     speed = str(cursor_fetchall(query2))
+    print(speed)
     delthese = "[()],.'¨"
     for char in delthese:
         speed = speed.replace(char, "")
