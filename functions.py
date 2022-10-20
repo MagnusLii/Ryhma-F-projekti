@@ -488,7 +488,7 @@ def findicao(lng):
 ###########################################################################################################
 ###########################################################################################################
 ###########################################################################################################
-def relocate(lng):  # TODO THIS IS FUCKING BROKEN!
+def relocate(lng):
     if lng == 1:
         print("Which terminal do you wish to travel to?\n"
               '"Input" its ICAO code.')
@@ -646,14 +646,14 @@ def confirm_aircrafttype(lng, aircrafttuple):
                 print(f"{BColors.CRED2}Input integer!{BColors.ENDC}")
 
 
-def moveplayer(endloc, playerid, acID):
+def moveplayer(endloc, playerid, acid):
     query = f'''UPDATE game
             SET location = "{endloc}"
             WHERE id = {playerid}
             ;'''
     if check_icao(endloc):
         cursor(query)
-        updatenextturn(playerid, movement_calc_time(endloc, acID))
+        updatenextturn(playerid, movement_calc_time(endloc, acid))
     else:
         print(f"{BColors.CVIOLET2}Error 'check_ICAO' not passed in 'moveplayer'{BColors.ENDC}")
 
@@ -691,8 +691,8 @@ def aircraftid_fromco2(co2usage):
     query = f'''SELECT lentoalukset.id
             FROM lentoalukset
             WHERE lentoalukset.co2_per_km = {co2usage}'''
-    acID = str(cursor_fetchall(query))
+    acid = str(cursor_fetchall(query))
     delthese = "[()],.'¨"
     for char in delthese:
-        acID = acID.replace(char, "")
-    return int(acID)
+        acid = acid.replace(char, "")
+    return int(acid)
