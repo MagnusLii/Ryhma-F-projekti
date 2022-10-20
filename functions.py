@@ -103,13 +103,13 @@ def startmenu(lng):
     if lng == 1:
         startmenuoption = ""
         while True:
-            print("\n")  # TODO New colour for these kinds of lists potentially.
-            print("[1]New game")
-            print("[2]Options")
-            print("[3]Credits")
-            print("[4]Scoreboard")
-            print("[0]Quit")
             try:
+                # TODO new colour for these lists potentially.
+                print("[1]New game")
+                print("[2]Options")
+                print("[3]Credits")
+                print("[4]Scoreboard")
+                print("[0]Quit")
                 startmenuoption = int(input(f"{BColors.OKCYAN}Enter choice: {BColors.ENDC}"))
             except ValueError:
                 print(f"{BColors.CRED2}ERROR!\nInput int from available options.")
