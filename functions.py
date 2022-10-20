@@ -417,8 +417,10 @@ def player_options_menu(lng):
             if playerchoice == "1":
                 findicao(currentlng)
             if playerchoice == "2":
-                relocate(currentlng)
-                return
+                if relocate(currentlng):
+                    continue
+                else:
+                    return
             if playerchoice == "3":
                 player_quer()
             if playerchoice == "4":
@@ -485,6 +487,8 @@ def findicao(lng):
 def relocate(lng):
     if lng == 1:
         while True:
+            if co2perkm == 42069:
+                return True
             print("Which terminal do you wish to travel to?\n"
                   '"Input" its ICAO code.')
             newlocation = input(f"{BColors.OKCYAN}#: {BColors.ENDC}").upper()
