@@ -29,6 +29,7 @@ hintsround2 = ["", "", "", ""]
 hintsround3 = ["", "", "", ""]
 hintsall = [hintsround0, hintsround1, hintsround2, hintsround3]
 
+
 class BColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -483,16 +484,16 @@ def findicao(lng):
         return
 
 
-def relocate(currentlng):  #TODO THIS IS FUCKING BROKEN!
-    if currentlng == 1:
+def relocate(lng):  # TODO THIS IS FUCKING BROKEN!
+    if lng == 1:
         print("Which terminal do you wish to travel to?\n"
               '"Input" its ICAO code.')
         while True:
             newlocation = input("#: ").upper()
             if check_icao(newlocation):
-                co2perkm = list_available_aircraft(currentlng, movement_calc_km(newlocation),
+                co2perkm = list_available_aircraft(lng, movement_calc_km(newlocation),
                                                    aircraft_availability_detect(
-                                                       currentplayer_currentloc(currentlng),
+                                                       currentplayer_currentloc(lng),
                                                        newlocation))
                 distance = movement_calc_km(newlocation)
                 #print(f"distance = {distance}")
@@ -505,3 +506,16 @@ def relocate(currentlng):  #TODO THIS IS FUCKING BROKEN!
             else:
                 print(f"{BColors.CVIOLET2}ICAO not found in terminal database. Please try again.{BColors.ENDC}")
                 spacing()
+
+
+def movement_calc_km(endloc):
+    query = f'''SELECT game.location FROM game
+                WHERE game.id = "{currentplayer}"
+                ;'''
+    distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
+    templist = [distancekm]
+    kmm = str(templist[0])
+    kmm = kmm[:8]
+    kmm = float(kmm)
+    kmm = int(kmm)
+    return kmm
