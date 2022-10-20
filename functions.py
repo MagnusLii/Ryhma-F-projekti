@@ -518,7 +518,7 @@ def movement_calc_km(endloc):
                 ;'''
     distancekm = str(geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc)))
     distancekm = distancekm[:8]
-    distancekm = float(distancekm)
+    distancekm = float(distancekm)  # Required, conversion into INT often won't work otherwise.
     return int(distancekm)
 
 
@@ -668,16 +668,22 @@ def movement_calc_time(endloc, aircraftid):
                 FROM lentoalukset
                 WHERE lentoalukset.id = "{aircraftid}"
                 ;'''
-
     distancekm = str(geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc)))
     delthese = "km "
     for char in delthese:  # Removes " km" from end of geodesic str.
         distancekm = distancekm.replace(char, "")
     distancekm = float(distancekm)
-
     speed = str(cursor_fetchall(query2))
     delthese = "[()],.'¨"
     for char in delthese:
         speed = speed.replace(char, "")
-
     return round(int((distancekm // int(speed)) * 60))
+
+
+def updatenextturn(playerid, mintoadd):
+    query = f'''UPDATE game
+            SET next_turn = next_turn + INTERVAL {mintoadd} MINUTE
+            WHERE id = "{playerid}"
+            ;'''
+    cursor(query)
+    return
