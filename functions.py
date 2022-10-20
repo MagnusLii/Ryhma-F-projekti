@@ -499,12 +499,12 @@ def relocate(lng):  # TODO THIS IS FUCKING BROKEN!
                                                    aircraft_availability_detect(
                                                        currentplayer_currentloc(lng),
                                                        newlocation))
-                print(f"co2perkm = {co2perkm}")
+                #print(f"co2perkm = {co2perkm}")
                 distance = movement_calc_km(newlocation)
-                print(f"distance = {distance}")
+                #print(f"distance = {distance}")
                 updateco2(currentplayer, movement_calc_co2(distance, co2perkm))
-                print(f"updateco2 = {updateco2(currentplayer, movement_calc_co2(distance, co2perkm))}")
-                moveplayer(newlocation, currentplayer)
+                p#rint(f"updateco2 = {updateco2(currentplayer, movement_calc_co2(distance, co2perkm))}")
+                moveplayer(newlocation, currentplayer, co2perkm)
                 print("You are moving to your destination.")
                 spacing()
                 return
@@ -649,14 +649,14 @@ def confirm_aircrafttype(lng, aircrafttuple):
                 print(f"{BColors.CRED2}Input integer!{BColors.ENDC}")
 
 
-def moveplayer(endloc, playerid):
+def moveplayer(endloc, playerid, acID):
     query = f'''UPDATE game
             SET location = "{endloc}"
             WHERE id = {playerid}
             ;'''
     if check_icao(endloc):
         cursor(query)
-        updatenextturn(playerid, movement_calc_time(endloc))
+        updatenextturn(playerid, movement_calc_time(endloc, acID))
     else:
         print(f"{BColors.CVIOLET2}Error 'check_ICAO' not passed in 'moveplayer'{BColors.ENDC}")
 
@@ -688,3 +688,10 @@ def updatenextturn(playerid, mintoadd):
             ;'''
     cursor(query)
     return
+
+
+def aircraftid_fromco2(co2usage):
+    query = f'''SELECT lentoalukset.id
+            FROM lentoalukset
+            WHERE lentoalukset.co2_per_km = {co2usage}'''
+    print(cursor_fetchall(query))
