@@ -3,8 +3,16 @@
 import functions
 
 query = """ALTER TABLE game
+DROP COLUMN next_turn
+;
+
+ALTER TABLE game
 ADD COLUMN next_turn TIMESTAMP
 DEFAULT CURRENT_TIMESTAMP
+;
+
+ALTER TABLE game
+DROP COLUMN starttime
 ;
 
 ALTER TABLE game
@@ -98,8 +106,16 @@ ALTER TABLE goal
 DROP COLUMN  target_text
 ;
 
+ALTER TABLE game
+DROP COLUMN airportid
+;
+
 ALTER TABLE goal
 ADD COLUMN airportid INT NOT NULL
+;
+
+ALTER TABLE game
+DROP COLUMN goalreached
 ;
 
 ALTER TABLE goal
