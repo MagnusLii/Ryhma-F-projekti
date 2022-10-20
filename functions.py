@@ -217,8 +217,8 @@ def player_setup(lng, numplayers):
                 startinglocation = "EGCC"
             status = check_icao(startinglocation)
             if status:
-                query = f'''INSERT INTO game(id, co2_consumed, co2_budget, screen_name, location)
-                        VALUES({i}, 0, 10000, "{playername}", "{startinglocation}")
+                query = f'''INSERT INTO game(id, screen_name, location)
+                        VALUES({i}, "{playername}", "{startinglocation}")
                         ;'''
                 cursor(query)
                 i += 1
