@@ -614,7 +614,7 @@ def list_available_aircraft(lng, distancekm, aircrafttypenum):
         print(f"{BColors.CYELLOW}Here are the compatible aircraft.{BColors.ENDC}")
         for row in aircraft:
             print(f"[{row[0]}]{row[2]}, co2 produced per KM: {row[3]}, Speed KM/h: {row[4]}.")
-        print(f"[{aircraft + 1}]Select to go back.")
+        print(f"[{len(aircraft) + 1}]Select to go back.")
         return confirm_aircrafttype(lng, aircraft)
 
 
