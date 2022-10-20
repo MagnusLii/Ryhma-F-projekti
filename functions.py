@@ -664,9 +664,12 @@ def moveplayer(endloc, playerid):
         print(f"{BColors.CVIOLET2}Error 'check_ICAO' not passed in 'moveplayer'{BColors.ENDC}")
 
 
-def movement_calc_time(endloc):
+def movement_calc_time(endloc, aircraftid):
     query = f'''SELECT game.location FROM game
             WHERE game.id = "{currentplayer}"
+            ;'''
+    query2 = f'''SELECT lentoalukset.speed_kmh FROM game
+            WHERE lentoalukset.id = "{aircraftid}"
             ;'''
     distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
     templist = [distancekm]
@@ -674,5 +677,7 @@ def movement_calc_time(endloc):
     kmm = kmm[:8]
     kmm = float(kmm)
     print(kmm)
-    timespent = int((kmm // 500) * 60)
+    speedkmh = cursor_fetchall(query2)
+    print(speedkmh)
+    #timespent = int((kmm // aircraftid
     return timespent
