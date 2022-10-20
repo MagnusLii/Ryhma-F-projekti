@@ -829,4 +829,6 @@ def kmfromgoal(currentloc=currentplayer, currentgoal=currentgoalid()):
     goalid = cursor_fetchall(f'''SELECT airport.latitude_deg, airport.longitude_deg
                              FROM airport
                              WHERE airport.id = {currentgoal}''')
+    print(currentcoords)
+    print(goalid)
     return str(geopy.distance.geodesic(currentcoords, goalid))
