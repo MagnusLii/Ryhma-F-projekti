@@ -626,6 +626,7 @@ def list_available_aircraft(lng, distancekm, aircrafttypenum):
         return confirm_aircrafttype(lng, aircraft)
 
 
+# Updates co2 used for the player.
 def updateco2(playerid, co2toadd):
     query = f'''UPDATE game
             SET co2_consumed = co2_consumed + {co2toadd}
@@ -634,10 +635,12 @@ def updateco2(playerid, co2toadd):
     cursor(query)
 
 
+# calculates co2 used on a journey.
 def movement_calc_co2(distance, co2perkm):
     return distance * co2perkm
 
 
+# Confirms what aircraft to use from player and returns the amount of co2 it uses perkm.
 def confirm_aircrafttype(lng, aircrafttuple):
     if lng == 1:
         chosenaircraft = None
@@ -655,6 +658,7 @@ def confirm_aircrafttype(lng, aircrafttuple):
                 print(f"{BColors.CRED2}Input integer!{BColors.ENDC}")
 
 
+# moves player to their chosen destination.
 def moveplayer(endloc, playerid, acid):
     query = f'''UPDATE game
             SET location = "{endloc}"
@@ -667,6 +671,7 @@ def moveplayer(endloc, playerid, acid):
         print(f"{BColors.CVIOLET2}Error 'check_ICAO' not passed in 'moveplayer'{BColors.ENDC}")
 
 
+# calculates time used for journey.
 def movement_calc_time(endloc, aircraftid):
     query = f'''SELECT game.location FROM game
             WHERE game.id = "{currentplayer}"
@@ -687,6 +692,7 @@ def movement_calc_time(endloc, aircraftid):
     return round(int((distancekm // int(speed)) * 60))
 
 
+# updates the time at which current player will have their next turn.
 def updatenextturn(playerid, mintoadd):
     query = f'''UPDATE game
             SET next_turn = next_turn + INTERVAL {mintoadd} MINUTE
@@ -696,6 +702,7 @@ def updatenextturn(playerid, mintoadd):
     return
 
 
+# determines and returns aircraft ID based on co2perkm usage.
 def aircraftid_fromco2(co2usage):
     query = f'''SELECT lentoalukset.id
             FROM lentoalukset
@@ -707,12 +714,14 @@ def aircraftid_fromco2(co2usage):
     return int(acid)
 
 
+# prints all available hints for the goal current player is after.
 def printallhints():
     for row in hintsall[currentgoalid()]:
         if row != "":
             print(row)
 
 
+# determines if player has reached a goal and updates the info into DB.
 def goalcheck(player):
     query = f'''SELECT airport.id
                 FROM airport, game
@@ -744,6 +753,7 @@ def goalcheck(player):
             functions.goalturntracker = 0
 
 
+# Checks if the game is over.
 def gameover():
     playerid = 1
     for i in range(playercount):
@@ -760,6 +770,7 @@ def gameover():
     return True
 
 
+# Calculates scores
 def scorecalc():
     trackingnum = 1
     for i in range(playercount):
@@ -779,6 +790,7 @@ def scorecalc():
         trackingnum += 1
 
 
+# prints every players end score.
 def scoredisplay():
     trackingnum = 1
     for i in range(playercount):
@@ -792,6 +804,7 @@ def scoredisplay():
         trackingnum += 1
 
 
+# Saves all scores into DB.
 def savescores():
     trackingnum = 1
     for i in range(playercount):
@@ -807,5 +820,6 @@ def savescores():
         trackingnum += 1
 
 
+# determines the distance between players current loc and their goal.
 def kmfromgoal(currentloc, currentgoal):
     print("lul")
