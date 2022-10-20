@@ -768,5 +768,5 @@ def scorecalc():
             endscore = round(endscore)
             endscore = int(endscore)
             endscores.append(endscore)
-    trackingnum += 1
+        trackingnum += 1
     print(endscores)
