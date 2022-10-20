@@ -742,18 +742,11 @@ def gameover():
                         FROM goal_reached
                         WHERE game_id = {playerid}
                         ;'''
-        print(playercount)
-        print(playerid)
         result = cursor_fetchall(query)
-        print(query)
-        print(result)
         if len(result) == 4:
-            print(len(result))
-            print("continue")
             playerid += 1
             continue
         else:
-            print("false")
             return False
     print("winner")
     return True
