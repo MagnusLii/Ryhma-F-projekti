@@ -519,3 +519,9 @@ def movement_calc_km(endloc):
     kmm = float(kmm)
     kmm = int(kmm)
     return kmm
+
+
+def getcoords(icao):
+    query = f'''SELECT latitude_deg, longitude_deg 
+        FROM airport WHERE ident = "{icao}"'''
+    return cursor_fetchall(query)
