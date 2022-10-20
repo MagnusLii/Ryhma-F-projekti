@@ -840,4 +840,5 @@ def kmfromgoal(currentloc=currentplayer, currentgoal=currentgoalid()):
     print(currentcoords)
     print(airportid)
     print(goalcoords)
-    print(geopy.distance.geodesic(currentcoords, goalcoords))
+    print(f'{BColors.CYELLOW}You are currently {geopy.distance.geodesic(currentcoords, goalcoords)} '
+          f'from the goal.{BColors.ENDC}')
