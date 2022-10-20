@@ -114,26 +114,26 @@ def startmenu(lng):
             except ValueError:
                 print(f"{BColors.CRED2}ERROR!\nInput int from available options.")
             if startmenuoption == 1:
-                spacing()
+                #spacing()
                 print(f"{BColors.CGREYBG}option 1{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
                 new_game(lng)
                 return
             elif startmenuoption == 2:
-                spacing()
+                #spacing()
                 print(f"{BColors.CGREYBG}option 2{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
                 options(lng)
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")  # TODO create options.
                 if startmenuoption == "":
                     continue
             elif startmenuoption == 3:
-                spacing()
+                #spacing()
                 print(f"{BColors.CGREYBG}option 3{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
                 gamecredits(lng)
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")
                 if startmenuoption == "":
                     continue
             elif startmenuoption == 4:
-                spacing()
+                #spacing()
                 print(f"{BColors.CGREYBG}option 4{BColors.ENDC}")  # TODO Remove before publish, troubleshooting only.
                 scoreboarddisplay()
                 startmenuoption = input(f"{BColors.OKCYAN}Press enter to go back. {BColors.ENDC}")
@@ -188,19 +188,19 @@ def new_game(lng):
                 userchoice = int(input(f"{BColors.OKCYAN}#: {BColors.ENDC}"))
                 if userchoice == 1:
                     functions.playercount = 1
-                    spacing()
+                    #spacing()
                     break
                 elif userchoice == 2:
                     try:
                         functions.playercount = int(input(f"{BColors.OKCYAN}Input number of players: {BColors.ENDC}"))
-                        spacing()
+                        #spacing()
                         break
                     except ValueError:
                         print(f"{BColors.CRED2}Please only input numbers.{BColors.ENDC}")
-                        spacing()
+                        #spacing()
             except ValueError:
                 print(f"{BColors.CRED2}Enter only from specified integer numbers.{BColors.ENDC}")
-                spacing()
+                #spacing()
         player_setup(lng, playercount)
 
 
@@ -225,7 +225,7 @@ def player_setup(lng, numplayers):
                                      f"{BColors.OKCYAN}#: {BColors.ENDC}").upper()
             if startinglocation == "":
                 startinglocation = "EGCC"
-                spacing()
+                #spacing()
             status = check_icao(startinglocation)
             if status:
                 query = f'''INSERT INTO game(id, co2_consumed, co2_budget, screen_name, location)
@@ -235,7 +235,7 @@ def player_setup(lng, numplayers):
                 i += 1
             elif not status:
                 print(f"{BColors.CRED2}Error! ICAO not found in database list.{BColors.ENDC}")
-                spacing()
+                #spacing()
 
 
 def player_quer():
@@ -248,7 +248,7 @@ def player_quer():
         print(f"Username: {row[0]}, "
               f"current location: {row[1]}, "
               f"co2 consumed: {row[2]}, ")
-    spacing()
+    #spacing()
 
 
 def random_goal_gen(goalnum):
@@ -417,7 +417,7 @@ def player_options_menu(lng):
                   '[3] Look at current player information.\n'
                   '[4] List hints.')
             playerchoice = input(f"{BColors.OKCYAN}#: {BColors.ENDC}")
-            spacing()
+            #spacing()
             if playerchoice == "1":
                 findicao(currentlng)
             if playerchoice == "2":
@@ -440,7 +440,7 @@ def findicao(lng):
               '[6] for municipality name\n'
               '"Exit" to exit search.')
         filterselect = input("Input chosen filters: ").upper()  # TODO Add additional valueerror handling.
-        spacing()
+        #spacing()
         airportname = ""
         airporttype = ""
         airportcontinent = ""
@@ -500,11 +500,11 @@ def relocate(lng):
                 updateco2(currentplayer, movement_calc_co2(distance, co2perkm))
                 moveplayer(newlocation, currentplayer, aircraftid_fromco2(co2perkm))
                 print(f"{BColors.CYELLOW}You are moving to your destination.{BColors.ENDC}")
-                spacing()
+                #spacing()
                 return
             else:
                 print(f"{BColors.CRED2}ICAO not found in terminal database. Please try again.{BColors.ENDC}")
-                spacing()
+                #spacing()
 
 
 def movement_calc_km(endloc):
