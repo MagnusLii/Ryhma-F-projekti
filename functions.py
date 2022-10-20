@@ -513,6 +513,7 @@ def movement_calc_km(endloc):
                 WHERE game.id = "{currentplayer}"
                 ;'''
     distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
+    print(distancekm)  # TODO remove before publish, only for troubleshooting.
     templist = [distancekm]
     kmm = str(templist[0])
     kmm = kmm[:8]
