@@ -677,6 +677,7 @@ def movement_calc_time(endloc, aircraftid):
     for char in delthese:
         distancekm = distancekm.replace(char, "")
     distancekm = float(distancekm)
+    print(distancekm)
 
     speedkmh = cursor_fetchall(query2)
     templist = [speedkmh]
