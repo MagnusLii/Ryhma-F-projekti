@@ -796,3 +796,4 @@ def savescores():
 
 
 def kmfromgoal(currentloc, currentgoal):
+    print("lul")
