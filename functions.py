@@ -508,7 +508,7 @@ def relocate(lng):  # TODO THIS IS FUCKING BROKEN!
                 spacing()
                 return
             else:
-                print(f"{BColors.CVIOLET2}ICAO not found in terminal database. Please try again.{BColors.ENDC}")
+                print(f"{BColors.CRED2}ICAO not found in terminal database. Please try again.{BColors.ENDC}")
                 spacing()
 
 
@@ -516,14 +516,10 @@ def movement_calc_km(endloc):
     query = f'''SELECT game.location FROM game
                 WHERE game.id = "{currentplayer}"
                 ;'''
-    distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
-    print(distancekm)  # TODO remove before publish, only for troubleshooting.
-    templist = [distancekm]
-    kmm = str(templist[0])
+    distancekm = str(geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc)))
+    distancekm = distancekm[:8]
     kmm = kmm[:8]
-    kmm = float(kmm)
-    kmm = int(kmm)
-    return kmm
+    return int(kmm)
 
 
 def getcoords(icao):
@@ -571,8 +567,8 @@ def aircraft_availability_detect(startloc, endloc):
             unwanted_num = {4, 3, 1, 5}
             availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
         elif i == "closed":
-            print(f"{BColors.CVIOLET2}The airport you attempted to move to is closed\n{BColors.ENDC}"
-                  f"{BColors.CVIOLET2}Please select an open airport.{BColors.ENDC}")
+            print(f"{BColors.CRED2}The airport you attempted to move to is closed\n{BColors.ENDC}"
+                  f"{BColors.CRED2}Please select an open airport.{BColors.ENDC}")
             player_options_menu(currentlng)
             unwanted_num = {4, 3, 2, 1, 5}
             availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
@@ -592,8 +588,8 @@ def aircraft_availability_detect(startloc, endloc):
             unwanted_num = {1, 5}
             availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
         if not availableaircrafttype:
-            print(f"{BColors.CVIOLET2}There are no aircraft capable of moving between selected airports.\n{BColors.ENDC}"
-                  f"{BColors.CVIOLET2}Please choose another location.{BColors.ENDC}")
+            print(f"{BColors.CRED2}There are no aircraft capable of moving between selected airports.\n{BColors.ENDC}"
+                  f"{BColors.CRED2}Please choose another location.{BColors.ENDC}")
             player_options_menu(currentlng)
     return availableaircrafttype
 
@@ -618,7 +614,7 @@ def list_available_aircraft(lng, distancekm, aircrafttypenum):
         if not aircraft:
             print("There are no aircraft capable of making this journey, we suggest traveling to a closer airport.")
             player_options_menu(lng)
-        print(f"{BColors.BOLD}Here are the compatible aircraft.{BColors.ENDC}")
+        print(f"{BColors.CYELLOW}Here are the compatible aircraft.{BColors.ENDC}")
         for row in aircraft:
             print(f"[{row[0]}]{row[2]}, co2 produced per KM: {row[3]}, Speed KM/h: {row[4]}.")
         return confirm_aircrafttype(lng, aircraft)
@@ -646,10 +642,10 @@ def confirm_aircrafttype(currentlng, aircrafttuple):
                 for row in aircrafttuple:
                     if chosenaircraft == int(row[0]):
                         return int(row[3])  # returns amount of Co2 per KM of chosen aircraft.
-                print(f"{BColors.CVIOLET2}Input integer from available options.\n{BColors.ENDC}")
+                print(f"{BColors.CRED2}Input integer from available options.\n{BColors.ENDC}")
                 confirm_aircrafttype(1, aircrafttuple)
             except ValueError:
-                print(f"{BColors.CVIOLET2}Input integer!{BColors.ENDC}")
+                print(f"{BColors.CRED2}Input integer!{BColors.ENDC}")
 
 
 def moveplayer(endloc, playerid):
@@ -672,17 +668,14 @@ def movement_calc_time(endloc, aircraftid):
                 FROM lentoalukset
                 WHERE lentoalukset.id = "{aircraftid}"
                 ;'''
+
     distancekm = str(geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc)))
     delthese = "km "
-    for char in delthese:  # Removes " km" from end of string.
+    for char in delthese:  # Removes " km" from end of geodesic str.
         distancekm = distancekm.replace(char, "")
     distancekm = float(distancekm)
-    print(distancekm)
 
-    #speedkmh = cursor_fetchall(query2)
-    #templist = [speedkmh]
     speed = str(cursor_fetchall(query2))
-    print(speed)
     delthese = "[()],.'¨"
     for char in delthese:
         speed = speed.replace(char, "")
