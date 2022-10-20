@@ -694,4 +694,8 @@ def aircraftid_fromco2(co2usage):
     query = f'''SELECT lentoalukset.id
             FROM lentoalukset
             WHERE lentoalukset.co2_per_km = {co2usage}'''
-    print(cursor_fetchall(query))
+    acID = cursor_fetchall(query)
+    delthese = "[()],.'¨"
+    for char in delthese:
+        acID = acID.replace(char, "")
+    print(acID)
