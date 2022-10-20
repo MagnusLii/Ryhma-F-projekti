@@ -4,26 +4,36 @@ import functions
 
 query = """ALTER TABLE game
 DROP COLUMN next_turn
-;
+;"""
 
-ALTER TABLE game
+functions.cursor(query)
+
+query = """ALTER TABLE game
 ADD COLUMN next_turn TIMESTAMP
 DEFAULT CURRENT_TIMESTAMP
-;
+;"""
 
-ALTER TABLE game
+functions.cursor(query)
+
+query = """ALTER TABLE game
 DROP COLUMN starttime
-;
+;"""
 
-ALTER TABLE game
+functions.cursor(query)
+
+query = """ALTER TABLE game
 ADD COLUMN starttime TIMESTAMP
 DEFAULT CURRENT_TIMESTAMP
-;
+;"""
 
-DROP TABLE lentoalukset
-;
+functions.cursor(query)
 
-CREATE TABLE lentoalukset (
+query = """DROP TABLE lentoalukset
+;"""
+
+functions.cursor(query)
+
+query = """CREATE TABLE lentoalukset (
 id INT NOT NULL auto_increment,
 type VARCHAR(254),
 type_numeric INT,
@@ -33,9 +43,11 @@ max_range_km INT,
 speed_kmh INT,
 PRIMARY KEY (id)
 )
-;
+;"""
 
-INSERT INTO lentoalukset(type, type_numeric, model_name, co2_per_km, max_range_km, speed_kmh)
+functions.cursor(query)
+
+query = """INSERT INTO lentoalukset(type, type_numeric, model_name, co2_per_km, max_range_km, speed_kmh)
 VALUES("isolentokone", 5, "Boeing B747-400ER", 90, 14200, 1127),
 ("isolentokone", 5, "Airbus A320-200", 68, 5900, 871),
 ("lentokone", 1, "Saab 90 scandia", 95, 2350, 370),
@@ -45,125 +57,180 @@ VALUES("isolentokone", 5, "Boeing B747-400ER", 90, 14200, 1127),
 ("vesitaso", 4, "vesitaso Privateer", 59, 1600, 398),
 ("helikopteri", 3, "helikopteri AW169", 63, 820, 306),
 ("helikopteri", 3, "helikopteri EC145", 52, 680, 260)
-;
+;"""
 
-ALTER TABLE airport
+functions.cursor(query)
+
+query = """ALTER TABLE airport
 DROP COLUMN wikipedia_link
-;
+;"""
 
-ALTER TABLE airport
+functions.cursor(query)
+
+query = """ALTER TABLE airport
 DROP COLUMN keywords
-;
+;"""
 
-ALTER TABLE airport
+functions.cursor(query)
+
+query = """ALTER TABLE airport
 DROP COLUMN home_link
-;
+;"""
 
-ALTER TABLE airport
+functions.cursor(query)
+
+query = """ALTER TABLE airport
 DROP COLUMN iata_code
-;
+;"""
 
-ALTER TABLE airport
+functions.cursor(query)
+
+query = """ALTER TABLE airport
 DROP COLUMN gps_code
-;
+;"""
 
-ALTER TABLE airport
+functions.cursor(query)
+
+query = """ALTER TABLE airport
 DROP COLUMN  local_code
-;
+;"""
 
-ALTER TABLE country
+functions.cursor(query)
+
+query = """ALTER TABLE country
 DROP COLUMN  keywords
-;
+;"""
 
-SET @count = 0;
+functions.cursor(query)
+
+query = """SET @count = 0;
 UPDATE airport SET airport.id = @count:= @count + 1
-;
+;"""
 
-DELETE FROM goal
-;
+functions.cursor(query)
 
-ALTER TABLE goal
+query = """DELETE FROM goal
+;"""
+
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 DROP COLUMN  name
-;
+;"""
 
-ALTER TABLE goal
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 DROP COLUMN  icon
-;
+;"""
 
-ALTER TABLE goal
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 DROP COLUMN  target
-;
+;"""
 
-ALTER TABLE goal
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 DROP COLUMN  target_minvalue
-;
+;"""
 
-ALTER TABLE goal
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 DROP COLUMN  target_maxvalue
-;
+;"""
 
-ALTER TABLE goal
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 DROP COLUMN  target_text
-;
+;"""
 
-ALTER TABLE game
+functions.cursor(query)
+
+query = """ALTER TABLE game
 DROP COLUMN airportid
-;
+;"""
 
-ALTER TABLE goal
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 ADD COLUMN airportid INT NOT NULL
-;
+;"""
 
-ALTER TABLE game
+functions.cursor(query)
+
+query = """ALTER TABLE game
 DROP COLUMN goalreached
-;
+;"""
 
-ALTER TABLE goal
+functions.cursor(query)
+
+query = """ALTER TABLE goal
 ADD COLUMN goalreached INT NOT NULL DEFAULT 0
-;
+;"""
 
-ALTER TABLE goal_reached
+functions.cursor(query)
+
+query = """ALTER TABLE goal_reached
 DROP CONSTRAINT goal_reached_ibfk_2
-;
+;"""
 
-DROP TABLE goal
-;
+functions.cursor(query)
 
-CREATE TABLE goal (
+query = """DROP TABLE goal
+;"""
+
+functions.cursor(query)
+
+query = """CREATE TABLE goal (
 id INT NOT NULL,
 goalreached BOOL NOT NULL DEFAULT 0,
 airportid INT NOT NULL,
 PRIMARY KEY (id)
 )
-;
+;"""
 
-ALTER TABLE goal_reached
+functions.cursor(query)
+
+query = """ALTER TABLE goal_reached
 ADD CONSTRAINT FK_gameid_game
 FOREIGN KEY (game_id) REFERENCES game(id)
-;
+;"""
 
-ALTER TABLE goal_reached
+functions.cursor(query)
+
+query = """ALTER TABLE goal_reached
 ADD CONSTRAINT FK_goalid_goal
 FOREIGN KEY (goal_id) REFERENCES goal(id)
-;
+;"""
 
-CREATE TABLE leaderboard (
+functions.cursor(query)
+query = """CREATE TABLE leaderboard (
 name VARCHAR(254) NOT NULL,
 score INT NOT NULL
 )
-;
+;"""
 
-ALTER TABLE game
+functions.cursor(query)
+
+query = """ALTER TABLE game
 ALTER co2_consumed SET DEFAULT 0,
 ALTER co2_budget SET DEFAULT 10000,
 ALTER location SET DEFAULT "EGCC"
-;
+;"""
 
-ALTER TABLE lentoalukset
+functions.cursor(query)
+
+query = """ALTER TABLE lentoalukset
 ADD CONSTRAINT UNIQUE(co2_per_km)
-;
+;"""
 
-ALTER TABLE game
+functions.cursor(query)
+
+query = """ALTER TABLE game
 DROP COLUMN co2_budget
 ;"""
 
