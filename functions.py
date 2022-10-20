@@ -96,6 +96,7 @@ def cursor_fetchall(query):
     return outcome
 
 
+# Creates a menu for the player from which they choose what they wish to do.
 def startmenu(lng):
     if lng == 1:
         startmenuoption = ""
@@ -133,15 +134,14 @@ def startmenu(lng):
                 exit()
 
 
+# Lists available options.
 def options(lng):  # TODO add actual language select options
     if lng == 1:
-        print("\n")
         print("[1]Language")
 
-
+# Lists credits.
 def gamecredits(lng):  # TODO Redo credits based on these instructions https://www.studiobinder.com/blog/where-credit-is-due-film-credits-order-hierarchy-with-free-film-credits-template/
     if lng == 1:
-        print("\n")
         print("Made by:\n"
               "Misto #1 \n"
               "Magnus \n"
@@ -149,6 +149,7 @@ def gamecredits(lng):  # TODO Redo credits based on these instructions https://w
               "Daniel")
 
 
+# Displays top 10 highest scoring players (and scores) of all time.
 def scoreboarddisplay():
     query = f'''SELECT name, score
                 FROM leaderboard
@@ -163,6 +164,7 @@ def scoreboarddisplay():
         placement += 1
 
 
+# Sets up a new game byt modifying the DB.
 def new_game(lng):
     clear_data()
     if lng == 1:
@@ -187,6 +189,7 @@ def new_game(lng):
         player_setup(lng, playercount)
 
 
+# clears goal and game data from DB.
 def clear_data():
     query = "DELETE FROM goal_reached;"
     cursor(query)
@@ -194,6 +197,7 @@ def clear_data():
     cursor(query)
 
 
+# Sets up the players for a game.
 def player_setup(lng, numplayers):
     i = 1
     if lng == 1:
@@ -219,6 +223,7 @@ def player_setup(lng, numplayers):
                 print(f"{BColors.CRED2}Error! ICAO not found in database list.{BColors.ENDC}")
 
 
+# Queries and displays the current situation of all players
 def player_quer():
     query = f'''SELECT game.screen_name, game.location, game.co2_consumed, game.next_turn, game.starttime
                 FROM game
@@ -234,6 +239,7 @@ def player_quer():
               f"{BColors.CYELLOW}time spent:{BColors.ENDC} {timespent} hours.")
 
 
+# Generates random goals for the game.
 def random_goal_gen(goalnum):
     cursor("DELETE FROM goal;")
     for i in range(goalnum):
@@ -252,6 +258,7 @@ def random_goal_gen(goalnum):
         cursor(query2)
 
 
+# Verifies if a specified ICAO code is valid.
 def check_icao(icaocode):
     query = f'''SELECT ident FROM airport
                 WHERE ident = "{icaocode}"
@@ -268,6 +275,7 @@ def check_icao(icaocode):
         return True
 
 
+# Creates hints for the goal the current player is after.
 def hintcreation():
     if goalturntracker == 0:
         query = f'''SELECT airport.continent, airport.type
@@ -335,6 +343,7 @@ def hintcreation():
         print(f"{BColors.CRED2}ERROR\n goalturntracker var out of bounds in hintcreation func{BColors.ENDC}")
 
 
+# Returns ID of current target goal.
 def currentgoalid():
     query = f'''SELECT goal_reached.goal_id
                 FROM goal_reached
@@ -355,6 +364,7 @@ def currentgoalid():
             return int(string) - 1
 
 
+# updates goalturntracker var.
 def nextgoalturn():
     if functions.goalturntracker > 3:
         return
@@ -362,6 +372,7 @@ def nextgoalturn():
         functions.goalturntracker += 1
 
 
+# Checks who's turn it is next and updates currentplayer var accordingly.
 def nextturn():
     keeptracknum = 0
     nextupcoming = 0
@@ -378,6 +389,8 @@ def nextturn():
     functions.currentplayer = nextupcoming + 1
 
 
+
+# prints who's turn it is.
 def print_currentplayer_turn(lng):
     if lng == 1:
         query = f'''SELECT screen_name
@@ -391,6 +404,7 @@ def print_currentplayer_turn(lng):
         print(f"{BColors.CYELLOW}It is now {name}'s turn.{BColors.ENDC}")
 
 
+# creates a menu of choices for the player to navigate in game.
 def player_options_menu(lng):
     if lng == 1:
         while True:
@@ -411,6 +425,7 @@ def player_options_menu(lng):
                 printallhints()
 
 
+# Filtering system used by players to lookup ICAO codes.
 def findicao(lng):
     if lng == 1:
         print("Select which filters you wish to use.\n"  # TODO New colour for these kinds of lists potentially.
@@ -466,6 +481,7 @@ def findicao(lng):
         return
 
 
+# Moves player to their chosen destination and updates time and co2 accordingly.
 def relocate(lng):
     if lng == 1:
         print("Which terminal do you wish to travel to?\n"
@@ -486,6 +502,7 @@ def relocate(lng):
                 print(f"{BColors.CRED2}ICAO not found in terminal database. Please try again.{BColors.ENDC}")
 
 
+# calculates distance between the players current location and destination.
 def movement_calc_km(endloc):
     query = f'''SELECT game.location FROM game
                 WHERE game.id = "{currentplayer}"
@@ -496,12 +513,14 @@ def movement_calc_km(endloc):
     return int(distancekm)
 
 
+# Queries long and lat coords from DB based on ICAO.
 def getcoords(icao):
     query = f'''SELECT latitude_deg, longitude_deg 
         FROM airport WHERE ident = "{icao}"'''
     return cursor_fetchall(query)
 
 
+# Fetches current players current location.
 def currentplayer_currentloc(currentplayerid):
     query = f'''SELECT location FROM game
             WHERE id = "{currentplayerid}"
@@ -515,6 +534,7 @@ def currentplayer_currentloc(currentplayerid):
     return icao
 
 
+# Filters aircraft types based on players starting and end location.
 def aircraft_availability_detect(startloc, endloc):
     availableaircrafttype = [1, 2, 3, 4, 5]
     airporttypes = []
@@ -568,6 +588,7 @@ def aircraft_availability_detect(startloc, endloc):
     return availableaircrafttype
 
 
+# creates a list for the player of aircraft they are able to use for their flight.
 def list_available_aircraft(lng, distancekm, aircrafttypenum):
     trackingnum = 0
     if lng == 1:
@@ -772,3 +793,6 @@ def savescores():
                         VALUE("{row[0]}", {endscores[i]})'''
             cursor(query2)
         trackingnum += 1
+
+
+def kmfromgoal(currentloc, currentgoal):
