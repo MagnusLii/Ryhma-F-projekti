@@ -288,7 +288,7 @@ def hintcreation():
     if goalturntracker == 0:
         query = f'''SELECT airport.continent, airport.type
                     FROM airport, goal
-                    WHERE goal.id = {SQLfunctions.activegoal}
+                    WHERE goal.id = {functions.activegoal}
                     AND airport.id = goal.airportid
                     ;'''
         result = cursor_fetchall(query)
@@ -303,7 +303,7 @@ def hintcreation():
     elif goalturntracker == 1:
         query = f'''SELECT airport.iso_country, country.name
                     FROM airport, goal, country
-                    WHERE goal.id = {SQLfunctions.activegoal}
+                    WHERE goal.id = {functions.activegoal}
                     AND airport.iso_country = country.iso_country
                     AND airport.id = goal.airportid
                     ;'''
@@ -318,7 +318,7 @@ def hintcreation():
     elif goalturntracker == 2:
         query = f'''SELECT airport.iso_region, airport.iso_country, country.name
                     FROM airport, goal, country
-                    WHERE goal.id = {SQLfunctions.activegoal}
+                    WHERE goal.id = {functions.activegoal}
                     AND airport.iso_country = country.iso_country
                     AND airport.id = goal.airportid
                     ;'''
@@ -334,7 +334,7 @@ def hintcreation():
     elif goalturntracker == 3:
         query = f'''SELECT airport.municipality, airport.iso_country, country.name
                     FROM airport, goal, country
-                    WHERE goal.id = {SQLfunctions.activegoal}
+                    WHERE goal.id = {functions.activegoal}
                     AND airport.iso_country = country.iso_country
                     AND airport.id = goal.airportid
                     ;'''
@@ -372,10 +372,10 @@ def currentgoalid():
 
 
 def nextgoalturn():
-    if SQLfunctions.goalturntracker > 3:
+    if functions.goalturntracker > 3:
         return
     else:
-        SQLfunctions.goalturntracker += 1
+        functions.goalturntracker += 1
 
 
 def nextturn():
@@ -391,7 +391,7 @@ def nextturn():
         if dtimelist[keeptracknum] <= dtimelist[nextupcoming]:
             nextupcoming = keeptracknum
         keeptracknum += 1
-    SQLfunctions.currentplayer = nextupcoming + 1
+    functions.currentplayer = nextupcoming + 1
 
 
 def print_currentplayer_turn(lng):
@@ -418,12 +418,12 @@ def player_options_menu(lng):
             playerchoice = input(f"{BColors.OKCYAN}#: {BColors.ENDC}")
             spacing()
             if playerchoice == "1":
-                findicao(lng_state)
+                findicao(currentlng)
             if playerchoice == "2":
-                relocate(lng_state)
+                relocate(currentlng)
                 return
             if playerchoice == "3":
-                plyr_quer()
+                player_quer()
             if playerchoice == "4":
                 printallhints()
 
@@ -482,8 +482,12 @@ def findicao(lng):
                   f'"Municipality": {row[6]}, '
                   f'"ICAO": {row[4]}.')
         return
-
-
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
 def relocate(lng):  # TODO THIS IS FUCKING BROKEN!
     if lng == 1:
         print("Which terminal do you wish to travel to?\n"
@@ -526,3 +530,149 @@ def getcoords(icao):
     query = f'''SELECT latitude_deg, longitude_deg 
         FROM airport WHERE ident = "{icao}"'''
     return cursor_fetchall(query)
+
+
+def currentplayer_currentloc(currentplayerid):
+    query = f'''SELECT location FROM game
+            WHERE id = "{currentplayerid}"
+            ;'''
+    result = cursor_fetchall(query)
+
+    icao = str(result[0])
+    delthese = "[()],.'¨"
+    for char in delthese:
+        icao = icao.replace(char, "")
+    return icao
+
+
+def aircraft_availability_detect(startloc, endloc):
+    availableaircrafttype = [1, 2, 3, 4, 5]
+    airporttypes = []
+    startlocquery = f'''SELECT type FROM airport
+                    WHERE ident = "{startloc}"
+                    ;'''
+    endlocquery = f'''SELECT type FROM airport
+                    WHERE ident = "{endloc}"
+                    ;'''
+    airporttypes.append(cursor_fetchall(startlocquery))
+    airporttypes.append(cursor_fetchall(endlocquery))
+
+    trackingnum = 0
+    for j in airporttypes:
+        name = str(j)
+        delthese = "[()],.'¨"
+        for char in delthese:
+            name = name.replace(char, "")
+        airporttypes[trackingnum] = name
+        trackingnum += 1
+
+    for i in airporttypes:
+        if i == "balloonport":
+            unwanted_num = {4, 3, 1, 5}
+            availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
+        elif i == "closed":
+            print(f"{BColors.CVIOLET2}The airport you attempted to move to is closed\n{BColors.ENDC}"
+                  f"{BColors.CVIOLET2}Please select an open airport.{BColors.ENDC}")
+            player_options_menu(currentlng)
+            unwanted_num = {4, 3, 2, 1, 5}
+            availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
+        elif i == "heliport":
+            unwanted_num = {4, 1, 5}
+            availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
+        elif i == "large_airport":
+            unwanted_num = {4}
+            availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
+        elif i == "medium_airport":
+            unwanted_num = {4}
+            availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
+        elif i == "small_airport":
+            unwanted_num = {4, 5}
+            availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
+        elif i == "seaplane_base":
+            unwanted_num = {1, 5}
+            availableaircrafttype = [ele for ele in availableaircrafttype if ele not in unwanted_num]
+        if not availableaircrafttype:
+            print(f"{BColors.CVIOLET2}There are no aircraft capable of moving between selected airports.\n{BColors.ENDC}"
+                  f"{BColors.CVIOLET2}Please choose another location.{BColors.ENDC}")
+            player_options_menu(currentlng)
+    return availableaircrafttype
+
+
+def list_available_aircraft(lng, distancekm, aircrafttypenum):
+    trackingnum = 0
+    if lng == 1:
+        if len(aircrafttypenum) == 1:
+            aircrafttypes = str(aircrafttypenum[0])
+        else:
+            aircrafttypes = str(aircrafttypenum[0])
+            for i in aircrafttypenum:
+                aircrafttypes = f"{aircrafttypes} or type_numeric = {aircrafttypenum[trackingnum]}"
+                trackingnum += 1
+
+        matching_aircraftquer = f'''SELECT ROW_NUMBER() OVER() AS num_row, id, model_name, co2_per_km, speed_kmh
+                                FROM lentoalukset
+                                WHERE type_numeric = {aircrafttypes}
+                                AND max_range_km > {distancekm}
+                                ;'''
+        aircraft = functions.cursor_fetchall(matching_aircraftquer)
+        if not aircraft:
+            print("There are no aircraft capable of making this journey, we suggest traveling to a closer airport.")
+            player_options_menu(lng)
+        print(f"{BColors.BOLD}Here are the compatible aircraft.{BColors.ENDC}")
+        for row in aircraft:
+            print(f"[{row[0]}]{row[2]}, co2 produced per KM: {row[3]}, Speed KM/h: {row[4]}.")
+        return confirm_aircrafttype(lng, aircraft)
+
+
+def updateco2(playerid, co2toadd):
+    query = f'''UPDATE game
+            SET co2_consumed = co2_consumed + {co2toadd}
+            WHERE id = "{playerid}"
+            ;'''
+    cursor(query)
+
+
+def movement_calc_co2(distance, co2perkm):
+    return distance * co2perkm
+
+
+
+def confirm_aircrafttype(currentlng, aircrafttuple):
+    if currentlng == 1:
+        chosenaircraft = None
+        while chosenaircraft is None:
+            try:
+                chosenaircraft = int(input("Choose aircraft: "))
+                for row in aircrafttuple:
+                    if chosenaircraft == int(row[0]):
+                        return int(row[3])  # returns amount of Co2 per KM of chosen aircraft.
+                print(f"{BColors.CVIOLET2}Input integer from available options.\n{BColors.ENDC}")
+                confirm_aircrafttype(1, aircrafttuple)
+            except ValueError:
+                print(f"{BColors.CVIOLET2}Input integer!{BColors.ENDC}")
+
+
+def moveplayer(endloc, playerid):
+    query = f'''UPDATE game
+            SET location = "{endloc}"
+            WHERE id = {playerid}
+            ;'''
+    if check_icao(endloc):
+        cursor(query)
+        updatenextturn(playerid, movement_calc_time(endloc))
+    else:
+        print(f"{BColors.CVIOLET2}Error 'check_ICAO' not passed in 'moveplayer'{BColors.ENDC}")
+
+
+def movement_calc_time(endloc):
+    query = f'''SELECT game.location FROM game
+            WHERE game.id = "{currentplayer}"
+            ;'''
+    distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
+    templist = [distancekm]
+    kmm = str(templist[0])
+    kmm = kmm[:8]
+    kmm = float(kmm)
+    print(kmm)
+    timespent = int((kmm // 500) * 60)
+    return timespent
