@@ -698,4 +698,4 @@ def aircraftid_fromco2(co2usage):
     delthese = "[()],.'¨"
     for char in delthese:
         acID = acID.replace(char, "")
-    print(acID)
+    return int(acID)
