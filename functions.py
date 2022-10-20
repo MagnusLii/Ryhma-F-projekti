@@ -245,9 +245,12 @@ def player_quer():
                 ;'''
     templist = cursor_fetchall(query)
     for row in templist:
-        print(f"Username: {row[0]}, "
-              f"current location: {row[1]}, "
-              f"co2 consumed: {row[2]}, ")
+        timespent = row[3] - row[4]
+        timespent = int(timespent.total_seconds()) / 3600
+        print(f"{BColors.CYELLOW}Username:{BColors.ENDC} {row[0]}, "
+              f"{BColors.CYELLOW}current location:{BColors.ENDC} {row[1]}, "
+              f"{BColors.CYELLOW}co2 consumed:{BColors.ENDC} {row[2]}, "
+              f"{BColors.CYELLOW}time spent:{BColors.ENDC} {timespent} hours.")
     #spacing()
 
 
