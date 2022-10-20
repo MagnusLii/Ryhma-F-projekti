@@ -11,7 +11,7 @@ import random
 import math
 import time
 import geopy.distance
-import datetime
+import datetime  # Required! Handles datetime format in/from queries.
 
 # Vars
 currentlng = 1  # 1 = English,
@@ -633,8 +633,8 @@ def movement_calc_co2(distance, co2perkm):
 
 
 
-def confirm_aircrafttype(currentlng, aircrafttuple):
-    if currentlng == 1:
+def confirm_aircrafttype(lng, aircrafttuple):
+    if lng == 1:
         chosenaircraft = None
         while chosenaircraft is None:
             try:
