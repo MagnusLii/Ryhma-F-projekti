@@ -821,10 +821,10 @@ def savescores():
 
 
 # prints the distance between players current loc and their goal.
-def kmfromgoal(currentloc=currentplayer, currentgoal=currentgoalid()):
+def kmfromgoal(player=currentplayer, currentgoal=currentgoalid()):
     currentcoords = cursor_fetchall(f'''SELECT airport.latitude_deg, airport.longitude_deg
                                     FROM airport, game
-                                    WHERE game.id = {currentloc}
+                                    WHERE game.id = {player}
                                     AND game.location = airport.ident
                                     ;''')
     airportid = str(cursor_fetchall(f'''SELECT goal.airportid
@@ -834,6 +834,7 @@ def kmfromgoal(currentloc=currentplayer, currentgoal=currentgoalid()):
     delthese = "[()],.'¨"
     for char in delthese:
         airportid = airportid.replace(char, "")
+    print(airportid[0])
     goalcoords = cursor_fetchall(f'''SELECT airport.latitude_deg, airport.longitude_deg
                                  FROM airport
                                  WHERE id = {airportid[0]}''')
