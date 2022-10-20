@@ -139,6 +139,7 @@ def options(lng):  # TODO add actual language select options
     if lng == 1:
         print("[1]Language")
 
+
 # Lists credits.
 def gamecredits(lng):  # TODO Redo credits based on these instructions https://www.studiobinder.com/blog/where-credit-is-due-film-credits-order-hierarchy-with-free-film-credits-template/
     if lng == 1:
@@ -389,7 +390,6 @@ def nextturn():
     functions.currentplayer = nextupcoming + 1
 
 
-
 # prints who's turn it is.
 def print_currentplayer_turn(lng):
     if lng == 1:
@@ -484,15 +484,17 @@ def findicao(lng):
 # Moves player to their chosen destination and updates time and co2 accordingly.
 def relocate(lng):
     if lng == 1:
-        print("Which terminal do you wish to travel to?\n"
-              '"Input" its ICAO code.')
         while True:
+            print("Which terminal do you wish to travel to?\n"
+                  '"Input" its ICAO code.')
             newlocation = input(f"{BColors.OKCYAN}#: {BColors.ENDC}").upper()
             if check_icao(newlocation):
                 co2perkm = list_available_aircraft(lng, movement_calc_km(newlocation),
                                                    aircraft_availability_detect(
                                                        currentplayer_currentloc(lng),
                                                        newlocation))
+                if co2perkm == 42069:
+                    continue
                 distance = movement_calc_km(newlocation)
                 updateco2(currentplayer, movement_calc_co2(distance, co2perkm))
                 moveplayer(newlocation, currentplayer, aircraftid_fromco2(co2perkm))
@@ -612,6 +614,7 @@ def list_available_aircraft(lng, distancekm, aircrafttypenum):
         print(f"{BColors.CYELLOW}Here are the compatible aircraft.{BColors.ENDC}")
         for row in aircraft:
             print(f"[{row[0]}]{row[2]}, co2 produced per KM: {row[3]}, Speed KM/h: {row[4]}.")
+        print(f"[{aircraft + 1}]Select to go back.")
         return confirm_aircrafttype(lng, aircraft)
 
 
@@ -637,6 +640,8 @@ def confirm_aircrafttype(lng, aircrafttuple):
                 for row in aircrafttuple:
                     if chosenaircraft == int(row[0]):
                         return int(row[3])  # returns amount of Co2 per KM of chosen aircraft.
+                    elif chosenaircraft == int(len(aircrafttuple) + 1):
+                        return 42069
                 print(f"{BColors.CRED2}Input integer from available options.\n{BColors.ENDC}")
                 confirm_aircrafttype(1, aircrafttuple)
             except ValueError:
