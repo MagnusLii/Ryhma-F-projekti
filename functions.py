@@ -745,7 +745,9 @@ def gameover():
         print(playercount)
         print(playerid)
         result = cursor_fetchall(query)
+        print(result)
         if len(result) == 4:
+            print(len(result))
             print("continue")
             playerid += 1
             continue
