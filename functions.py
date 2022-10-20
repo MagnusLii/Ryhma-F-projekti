@@ -686,6 +686,7 @@ def movement_calc_time(endloc, aircraftid):
     print(speedkmh)
     delthese = "[()],.'¨"
     for char in delthese:
-        speed = int(speed.replace(char, ""))
+        speed = speed.replace(char, "")
+    speed = int(speed)
     timespent = round(int((kmm // speed)))
     return timespent
