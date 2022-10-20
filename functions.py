@@ -668,9 +668,10 @@ def movement_calc_time(endloc, aircraftid):
     query = f'''SELECT game.location FROM game
             WHERE game.id = "{currentplayer}"
             ;'''
-    query2 = f'''SELECT lentoalukset.speed_kmh FROM game
-            WHERE lentoalukset.id = "{aircraftid}"
-            ;'''
+    query2 = f'''SELECT lentoalukset.speed_kmh 
+                FROM lentoalukset
+                WHERE lentoalukset.id = "{aircraftid}"
+                ;'''
     distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
     templist = [distancekm]
     kmm = str(templist[0])
