@@ -737,23 +737,17 @@ def goalcheck(player):
 
 def gameover():
     playerid = 1
-    query = f'''SELECT goal_id
-                FROM goal_reached
-                WHERE game_id = {playerid}
-                ;'''
     for i in range(playercount):
-        print(playercount)
-        print(playerid)
+        query = f'''SELECT goal_id
+                        FROM goal_reached
+                        WHERE game_id = {playerid}
+                        ;'''
         result = cursor_fetchall(query)
-        print(query)
-        print(result)
         if len(result) == 4:
-            print(len(result))
             print("continue")
             playerid += 1
             continue
         else:
-            print("false")
             return False
     print("winner")
     return True
