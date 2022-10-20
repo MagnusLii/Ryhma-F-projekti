@@ -733,3 +733,20 @@ def goalcheck(player):
                         ;'''
             cursor(query4)  # sets goalreached flag into goals table.
             SQLfunctions.goalturntracker = 0
+
+
+def gameover():
+    playerid = 1
+    query = f'''SELECT goalreached
+                FROM goal
+                WHERE goalreached = 1
+                AND game_id = {playerid}
+                ;'''
+    for i in range(playercount):
+        print(playercount)
+        result = cursor_fetchall(query)
+        if len(result) == 4:
+            continue
+        else:
+            return False
+    return True
