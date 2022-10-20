@@ -672,7 +672,7 @@ def movement_calc_time(endloc, aircraftid):
                 FROM lentoalukset
                 WHERE lentoalukset.id = "{aircraftid}"
                 ;'''
-    distancekm = geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc))
+    distancekm = str(geopy.distance.geodesic(getcoords(cursor_fetchall(query)), getcoords(endloc)))
     delthese = "km "
     for char in delthese:
         distancekm = distancekm.replace(char, "")
