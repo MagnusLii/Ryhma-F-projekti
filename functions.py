@@ -192,11 +192,13 @@ def new_game(lng):
                         #spacing()
                         break
                     except ValueError:
-                        print(f"{BColors.CRED2}Please only input numbers.{BColors.ENDC}")
+                        print(f"{BColors.CRED2}Please only input integer numbers.{BColors.ENDC}")
                         #spacing()
             except ValueError:
-                print(f"{BColors.CRED2}Enter only from specified integer numbers.{BColors.ENDC}")
+                print(f"{BColors.CRED2}Input numbers.{BColors.ENDC}")
                 #spacing()
+            else:
+                print(f"{BColors.CRED2}Enter only from specified numbers.{BColors.ENDC}")
         player_setup(lng, playercount)
 
 
