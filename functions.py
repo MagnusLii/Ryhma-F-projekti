@@ -820,6 +820,13 @@ def savescores():
         trackingnum += 1
 
 
-# determines the distance between players current loc and their goal.
-def kmfromgoal(currentloc, currentgoal):
-    print("lul")
+# prints the distance between players current loc and their goal.
+def kmfromgoal(currentloc=currentplayer, currentgoal=currentgoalid()):
+    currentcoords = cursor_fetchall(f'''SELECT airport.latidude_deg, airport.longitude_deg
+                     FROM airport, game
+                     WHERE game.id = {currentloc}
+                     ;''')
+    goalid = cursor_fetchall(f'''SELECT airport.latidude_deg, airport.longitude_deg
+                             FROM airport
+                             WHERE airport.id = {currentgoal}''')
+    return str(geopy.distance.geodesic(currentcoords, goalid))
