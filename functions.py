@@ -430,7 +430,7 @@ def player_options_menu(lng=currentlng):
 
 # Filtering system used by players to lookup ICAO codes.
 def findicao(lng=currentlng):
-    validinputs = [1, 2, 3, 4, 5, 6, "EXIT"]
+    validinputs = ["1", "2", "3", "4", "5", "6", "EXIT"]
     validinputdetected = False
     if lng == 1:
         print("Select which filters you wish to use.\n"  # TODO New colour for these kinds of lists potentially.
