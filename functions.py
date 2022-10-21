@@ -407,6 +407,8 @@ def print_currentplayer_turn(lng=currentlng):
 
 # creates a menu of choices for the player to navigate in game.
 def player_options_menu(lng=currentlng):
+    validinputs = ["1", "2", "3", "4", "5", "6", "EXIT"]
+    validinputdetected = False
     if lng == 1:
         while True:
             print("Choose what you wish to do.\n"  # TODO New colour for these kinds of lists potentially.
@@ -415,6 +417,12 @@ def player_options_menu(lng=currentlng):
                   '[3] Look at current player information.\n'
                   '[4] List hints.')
             playerchoice = input(f"{BColors.OKCYAN}#: {BColors.ENDC}")
+            for char in playerchoice:
+                if char in validinputs:
+                    validinputdetected = True
+            if not validinputdetected:
+                print(f"{BColors.CRED2}No valid inputs detected!{BColors.ENDC}")
+                continue
             if playerchoice == "1":
                 findicao(currentlng)
             if playerchoice == "2":
@@ -441,7 +449,7 @@ def findicao(lng=currentlng):
               '[5] for Country region iso code\n'
               '[6] for municipality name\n'
               '["Exit"] to exit search.')
-        filterselect = input("Input chosen filters: ").upper()  # TODO Add additional valueerror handling.
+        filterselect = input("Input chosen filters: ").upper()
         for char in filterselect:
             if char in validinputs:
                 validinputdetected = True
