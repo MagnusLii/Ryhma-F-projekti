@@ -14,6 +14,7 @@ while True:
         functions.nextgoalturn()
         functions.hintcreation()
     functions.nextturn()  # First turn will always be player 1 as their start time is always first.
+    functions.kmfromgoal()
     functions.print_currentplayer_turn(functions.currentlng)
     functions.player_options_menu(functions.currentlng)
     functions.goalcheck(functions.currentplayer)
