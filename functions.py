@@ -441,7 +441,7 @@ def findicao(lng=currentlng):
               '[6] for municipality name\n'
               '["Exit"] to exit search.')
         filterselect = input("Input chosen filters: ").upper()  # TODO Add additional valueerror handling.
-        if validinputs not in filterselect:
+        if filterselect not in validinputs:
             print(f"{BColors.CRED2}No valid inputs detected!{BColors.ENDC}")
             return
         airportname = ""
