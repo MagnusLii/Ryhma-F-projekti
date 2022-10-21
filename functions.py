@@ -448,8 +448,6 @@ def findicao(lng=currentlng):
         if not validinputdetected:
             print(f"{BColors.CRED2}No valid inputs detected!{BColors.ENDC}")
             return
-#        if filterselect not in validinputs:
-#            print(f"{BColors.CRED2}No valid inputs detected!{BColors.ENDC}")
         airportname = ""
         airporttype = ""
         airportcontinent = ""
@@ -484,7 +482,7 @@ def findicao(lng=currentlng):
                 ;'''
         results = cursor_fetchall(query)
         if not results:
-            print("no matching results found.")
+            print(f"{BColors.CYELLOW}No matching results found.{BColors.ENDC}")
         for row in results:
             print(f'{BColors.CYELLOW}"Name":{BColors.ENDC} {row[0]}, '
                   f'{BColors.CYELLOW}"Type":{BColors.ENDC} {row[1]}, '
