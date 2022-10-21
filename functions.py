@@ -2,11 +2,10 @@
 # Required packages, mysql-connector-python, geopy
 
 # Imports
-import functions
+import functions  # Required, used in functions with complex scopes that don't handle global vars properly.
 import connection
 import random
 import math
-import time
 import geopy.distance
 import datetime  # Required! Handles datetime format in/from queries.
 
@@ -393,7 +392,7 @@ def nextturn():
 
 
 # prints who's turn it is.
-def print_currentplayer_turn(lng):
+def print_currentplayer_turn(lng=currentlng):
     if lng == 1:
         query = f'''SELECT screen_name
                 FROM game
@@ -407,7 +406,7 @@ def print_currentplayer_turn(lng):
 
 
 # creates a menu of choices for the player to navigate in game.
-def player_options_menu(lng):
+def player_options_menu(lng=currentlng):
     if lng == 1:
         while True:
             print("Choose what you wish to do.\n"  # TODO New colour for these kinds of lists potentially.
@@ -430,7 +429,7 @@ def player_options_menu(lng):
 
 
 # Filtering system used by players to lookup ICAO codes.
-def findicao(lng):
+def findicao(lng=currentlng):
     validinputs = [1, 2, 3, 4, 5, 6, "EXIT"]
     if lng == 1:
         print("Select which filters you wish to use.\n"  # TODO New colour for these kinds of lists potentially.
@@ -490,7 +489,7 @@ def findicao(lng):
 
 
 # Moves player to their chosen destination and updates time and co2 accordingly.
-def relocate(lng):
+def relocate(lng=currentlng):
     if lng == 1:
         while True:
             co2perkm = None
@@ -500,7 +499,7 @@ def relocate(lng):
                   '"Input" its ICAO code.')
             newlocation = input(f"{BColors.OKCYAN}#: {BColors.ENDC}").upper()
             if check_icao(newlocation):
-                co2perkm = list_available_aircraft(lng, movement_calc_km(newlocation),
+                co2perkm = list_available_aircraft(movement_calc_km(newlocation),
                                                    aircraft_availability_detect(
                                                        currentplayer_currentloc(lng),
                                                        newlocation))
@@ -603,7 +602,7 @@ def aircraft_availability_detect(startloc, endloc):
 
 
 # creates a list for the player of aircraft they are able to use for their flight.
-def list_available_aircraft(lng, distancekm, aircrafttypenum):
+def list_available_aircraft(distancekm, aircrafttypenum, lng=currentlng):
     trackingnum = 0
     if lng == 1:
         if len(aircrafttypenum) == 1:
@@ -627,7 +626,7 @@ def list_available_aircraft(lng, distancekm, aircrafttypenum):
         for row in aircraft:
             print(f"[{row[0]}]{row[2]}, co2 produced per KM: {row[3]}, Speed KM/h: {row[4]}.")
         print(f"[{len(aircraft) + 1}]Select to go back.")
-        return confirm_aircrafttype(lng, aircraft)
+        return confirm_aircrafttype(aircraft)
 
 
 # Updates co2 used for the player.
@@ -645,7 +644,7 @@ def movement_calc_co2(distance, co2perkm):
 
 
 # Confirms what aircraft to use from player and returns the amount of co2 it uses perkm.
-def confirm_aircrafttype(lng, aircrafttuple):
+def confirm_aircrafttype(aircrafttuple, lng=currentlng):
     if lng == 1:
         chosenaircraft = None
         while chosenaircraft is None:
@@ -657,7 +656,7 @@ def confirm_aircrafttype(lng, aircrafttuple):
                     elif chosenaircraft == int(len(aircrafttuple) + 1):
                         return 42069
                 print(f"{BColors.CRED2}Input integer from available options.\n{BColors.ENDC}")
-                confirm_aircrafttype(1, aircrafttuple)
+                confirm_aircrafttype(aircrafttuple)
             except ValueError:
                 print(f"{BColors.CRED2}Input integer!{BColors.ENDC}")
 
