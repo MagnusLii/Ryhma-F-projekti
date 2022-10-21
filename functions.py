@@ -431,6 +431,7 @@ def player_options_menu(lng):
 
 # Filtering system used by players to lookup ICAO codes.
 def findicao(lng):
+    validinputs = [1, 2, 3, 4, 5, 6, "EXIT"]
     if lng == 1:
         print("Select which filters you wish to use.\n"  # TODO New colour for these kinds of lists potentially.
               '[1] for airportname.\n'
@@ -439,8 +440,11 @@ def findicao(lng):
               '[4] for country ISO code.\n'
               '[5] for Country region iso code\n'
               '[6] for municipality name\n'
-              '"Exit" to exit search.')
+              '["Exit"] to exit search.')
         filterselect = input("Input chosen filters: ").upper()  # TODO Add additional valueerror handling.
+        if validinputs not in filterselect:
+            print(f"{BColors.CRED2}No valid inputs detected!{BColors.ENDC}")
+            return
         airportname = ""
         airporttype = ""
         airportcontinent = ""
