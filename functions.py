@@ -431,6 +431,7 @@ def player_options_menu(lng=currentlng):
 # Filtering system used by players to lookup ICAO codes.
 def findicao(lng=currentlng):
     validinputs = [1, 2, 3, 4, 5, 6, "EXIT"]
+    validinputdetected = False
     if lng == 1:
         print("Select which filters you wish to use.\n"  # TODO New colour for these kinds of lists potentially.
               '[1] for airportname.\n'
@@ -442,10 +443,9 @@ def findicao(lng=currentlng):
               '["Exit"] to exit search.')
         filterselect = input("Input chosen filters: ").upper()  # TODO Add additional valueerror handling.
         for char in filterselect:
-            if char not in validinputs:
-                continue
-            else:
-                break
+            if char in validinputs:
+                validinputdetected = True
+        if not validinputdetected:
             print(f"{BColors.CRED2}No valid inputs detected!{BColors.ENDC}")
             return
 #        if filterselect not in validinputs:
@@ -483,6 +483,8 @@ def findicao(lng=currentlng):
                 ORDER BY airport.name ASC
                 ;'''
         results = cursor_fetchall(query)
+        if not results:
+            print("no matching results found.")
         for row in results:
             print(f'{BColors.CYELLOW}"Name":{BColors.ENDC} {row[0]}, '
                   f'{BColors.CYELLOW}"Type":{BColors.ENDC} {row[1]}, '
