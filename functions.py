@@ -453,6 +453,8 @@ def findicao(lng=currentlng):
         for char in filterselect:
             if char in validinputs:
                 validinputdetected = True
+            elif filterselect in validinputs:
+                validinputdetected = True
         if not validinputdetected:
             print(f"{BColors.CRED2}No valid inputs detected!{BColors.ENDC}")
             return
