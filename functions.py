@@ -376,7 +376,7 @@ def nextgoalturn():
         functions.goalturntracker += 1
 
 
-# Checks who's turn it is next and updates currentplayer var accordingly.
+# Checks whose turn it is next and updates currentplayer var accordingly.
 def nextturn():
     keeptracknum = 0
     nextupcoming = 0
@@ -393,7 +393,7 @@ def nextturn():
     functions.currentplayer = nextupcoming + 1
 
 
-# prints who's turn it is.
+# prints whose turn it is.
 def print_currentplayer_turn(lng=currentlng):
     if lng == 1:
         query = f'''SELECT screen_name
@@ -814,7 +814,7 @@ def scorecalc():
         trackingnum += 1
 
 
-# prints every players end score.
+# prints every players' end score.
 def scoredisplay():
     trackingnum = 1
     for i in range(playercount):
@@ -888,7 +888,8 @@ def side_quest():
     question_list_size = len(globals()["questions"])
     if question_list_size < 3:
         globals()["questions"] = globals()["original_questions_list"].copy()
-    list_of_questions = [globals()["questions"].pop(random.randrange(len(globals()["questions"]))) for _ in range(random.randint(1, 3))]
+    list_of_questions = [globals()["questions"].pop(random.randrange(len(globals()["questions"])))
+                         for _ in range(random.randint(1, 3))]
 
     for i in list_of_questions:
         print(i["q"])
