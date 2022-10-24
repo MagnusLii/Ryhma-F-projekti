@@ -8,6 +8,8 @@ import random
 import math
 import geopy.distance
 import datetime  # Required! Handles datetime format in/from queries.
+global questions  # Used in sidequests, DO NOT USE ELSEWHERE!
+global original_questions_list  # Used in sidequests, DO NOT USE ELSEWHERE!
 
 # Vars
 currentlng = 1  # 1 = English,
@@ -525,6 +527,9 @@ def relocate(lng=currentlng):
                 distance = movement_calc_km(newlocation)
                 updateco2(currentplayer, movement_calc_co2(distance, co2perkm))
                 moveplayer(newlocation, currentplayer, aircraftid_fromco2(co2perkm))
+                randomnum = random.randint(1, 6)
+                if randomnum >= 4:
+                    side_quest()
                 print(f"{BColors.CYELLOW}You are moving to your destination.{BColors.ENDC}")
                 return
             else:
@@ -858,3 +863,42 @@ def kmfromgoal(player=currentplayer, currentgoal=currentgoalid()):
                                  WHERE id = {airportid}''')
     print(f'{BColors.CYELLOW}You are currently {geopy.distance.geodesic(currentcoords, goalcoords)} '
           f'from the goal.{BColors.ENDC}')
+
+
+globals()["questions"] = [
+        {"q": "k?", "a": "kkk"},
+        {"q": "k2?", "a": "kkk2"},
+        {"q": "k3?", "a": "kkk3"},
+        {"q": "k4?", "a": "kkk4"},
+        {"q": "k5?", "a": "kkk5"},
+        {"q": "k6?", "a": "kkk6"}
+    ]
+globals()["original_questions_list"] = [
+        {"q": "k?", "a": "kkk"},
+        {"q": "k2?", "a": "kkk2"},
+        {"q": "k3?", "a": "kkk3"},
+        {"q": "k4?", "a": "kkk4"},
+        {"q": "k5?", "a": "kkk5"},
+        {"q": "k6?", "a": "kkk6"}
+    ]
+
+
+def side_quest():
+
+    question_list_size = len(globals()["questions"])
+    if question_list_size < 3:
+        globals()["questions"] = globals()["original_questions_list"].copy()
+    list_of_questions = [globals()["questions"].pop(random.randrange(len(globals()["questions"]))) for _ in range(random.randint(1, 3))]
+
+    for i in list_of_questions:
+        print(i["q"])
+        answer = input(f"{BColors.OKCYAN}Answer Yes(y) or No(n): {BColors.ENDC}")
+        if answer == i["a"]:
+            print(f"{BColors.CYELLOW}Congratulations you earned 500 points.{BColors.ENDC}")
+            addpointsquery = f'''UPDATE game
+                              SET points = points + 500
+                              WHERE id = {currentplayer}
+                              ;'''
+            cursor(addpointsquery)
+        else:
+            print(f"{BColors.CYELLOW}Wrong. :({BColors.ENDC}")
