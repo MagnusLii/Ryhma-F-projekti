@@ -404,7 +404,7 @@ def print_currentplayer_turn(lng=currentlng):
         delthese = "[()],.'¨"
         for char in delthese:
             name = name.replace(char, "")
-        print(f"{BColors.CYELLOW}It is now {name}'s turn.{BColors.ENDC}")
+        print(f"{BColors.CYELLOW}It is now {CGREEN}{name}{BColors.ENDC}'s turn.{BColors.ENDC}")
 
 
 # creates a menu of choices for the player to navigate in game.
