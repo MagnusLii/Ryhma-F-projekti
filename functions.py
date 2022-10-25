@@ -28,6 +28,23 @@ hintsround3 = ["", "", "", ""]
 hintsall = [hintsround0, hintsround1, hintsround2, hintsround3]
 endscores = []
 
+# Used for sidequests() function.
+globals()["questions"] = [
+        {"q": "k?", "a": "kkk"},
+        {"q": "k2?", "a": "kkk2"},
+        {"q": "k3?", "a": "kkk3"},
+        {"q": "k4?", "a": "kkk4"},
+        {"q": "k5?", "a": "kkk5"},
+        {"q": "k6?", "a": "kkk6"}
+    ]
+globals()["original_questions_list"] = [
+        {"q": "k?", "a": "kkk"},
+        {"q": "k2?", "a": "kkk2"},
+        {"q": "k3?", "a": "kkk3"},
+        {"q": "k4?", "a": "kkk4"},
+        {"q": "k5?", "a": "kkk5"},
+        {"q": "k6?", "a": "kkk6"}
+    ]
 
 class BColors:
     HEADER = '\033[95m'
@@ -863,24 +880,6 @@ def kmfromgoal(player=currentplayer, currentgoal=currentgoalid()):
                                  WHERE id = {airportid}''')
     print(f'{BColors.CYELLOW}You are currently {geopy.distance.geodesic(currentcoords, goalcoords)} '
           f'from the goal.{BColors.ENDC}')
-
-
-globals()["questions"] = [
-        {"q": "k?", "a": "kkk"},
-        {"q": "k2?", "a": "kkk2"},
-        {"q": "k3?", "a": "kkk3"},
-        {"q": "k4?", "a": "kkk4"},
-        {"q": "k5?", "a": "kkk5"},
-        {"q": "k6?", "a": "kkk6"}
-    ]
-globals()["original_questions_list"] = [
-        {"q": "k?", "a": "kkk"},
-        {"q": "k2?", "a": "kkk2"},
-        {"q": "k3?", "a": "kkk3"},
-        {"q": "k4?", "a": "kkk4"},
-        {"q": "k5?", "a": "kkk5"},
-        {"q": "k6?", "a": "kkk6"}
-    ]
 
 
 def side_quest():
