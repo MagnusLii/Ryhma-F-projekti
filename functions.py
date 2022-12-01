@@ -8,6 +8,8 @@ import random
 import math
 import geopy.distance
 import datetime  # Required! Handles datetime format in/from queries.
+global questions  # Used in sidequests, DO NOT USE ELSEWHERE!
+global original_questions_list  # Used in sidequests, DO NOT USE ELSEWHERE!
 
 # Vars
 currentlng = 1  # 1 = English,
@@ -26,6 +28,23 @@ hintsround3 = ["", "", "", ""]
 hintsall = [hintsround0, hintsround1, hintsround2, hintsround3]
 endscores = []
 
+# Used for sidequests() function.
+globals()["questions"] = [
+        {"q": "k?", "a": "kkk"},
+        {"q": "k2?", "a": "kkk2"},
+        {"q": "k3?", "a": "kkk3"},
+        {"q": "k4?", "a": "kkk4"},
+        {"q": "k5?", "a": "kkk5"},
+        {"q": "k6?", "a": "kkk6"}
+    ]
+globals()["original_questions_list"] = [
+        {"q": "k?", "a": "kkk"},
+        {"q": "k2?", "a": "kkk2"},
+        {"q": "k3?", "a": "kkk3"},
+        {"q": "k4?", "a": "kkk4"},
+        {"q": "k5?", "a": "kkk5"},
+        {"q": "k6?", "a": "kkk6"}
+    ]
 
 class BColors:
     HEADER = '\033[95m'
@@ -374,7 +393,7 @@ def nextgoalturn():
         functions.goalturntracker += 1
 
 
-# Checks who's turn it is next and updates currentplayer var accordingly.
+# Checks whose turn it is next and updates currentplayer var accordingly.
 def nextturn():
     keeptracknum = 0
     nextupcoming = 0
@@ -391,7 +410,7 @@ def nextturn():
     functions.currentplayer = nextupcoming + 1
 
 
-# prints who's turn it is.
+# prints whose turn it is.
 def print_currentplayer_turn(lng=currentlng):
     if lng == 1:
         query = f'''SELECT screen_name
@@ -402,7 +421,7 @@ def print_currentplayer_turn(lng=currentlng):
         delthese = "[()],.'¨"
         for char in delthese:
             name = name.replace(char, "")
-        print(f"{BColors.CYELLOW}It is now {name}'s turn.{BColors.ENDC}")
+        print(f"{BColors.CYELLOW}It is now {BColors.CGREEN}{name}{BColors.CYELLOW}'s turn.{BColors.ENDC}")
 
 
 # creates a menu of choices for the player to navigate in game.
@@ -525,6 +544,9 @@ def relocate(lng=currentlng):
                 distance = movement_calc_km(newlocation)
                 updateco2(currentplayer, movement_calc_co2(distance, co2perkm))
                 moveplayer(newlocation, currentplayer, aircraftid_fromco2(co2perkm))
+                randomnum = random.randint(1, 6)
+                if randomnum >= 4:
+                    side_quest()
                 print(f"{BColors.CYELLOW}You are moving to your destination.{BColors.ENDC}")
                 return
             else:
@@ -809,7 +831,7 @@ def scorecalc():
         trackingnum += 1
 
 
-# prints every players end score.
+# prints every players' end score.
 def scoredisplay():
     trackingnum = 1
     for i in range(playercount):
@@ -858,3 +880,25 @@ def kmfromgoal(player=currentplayer, currentgoal=currentgoalid()):
                                  WHERE id = {airportid}''')
     print(f'{BColors.CYELLOW}You are currently {geopy.distance.geodesic(currentcoords, goalcoords)} '
           f'from the goal.{BColors.ENDC}')
+
+
+def side_quest():
+
+    question_list_size = len(globals()["questions"])
+    if question_list_size < 3:
+        globals()["questions"] = globals()["original_questions_list"].copy()
+    list_of_questions = [globals()["questions"].pop(random.randrange(len(globals()["questions"])))
+                         for _ in range(random.randint(1, 3))]
+
+    for i in list_of_questions:
+        print(i["q"])
+        answer = input(f"{BColors.OKCYAN}Answer Yes(y) or No(n): {BColors.ENDC}")
+        if answer == i["a"]:
+            print(f"{BColors.CYELLOW}Congratulations you earned 500 points.{BColors.ENDC}")
+            addpointsquery = f'''UPDATE game
+                              SET points = points + 500
+                              WHERE id = {currentplayer}
+                              ;'''
+            cursor(addpointsquery)
+        else:
+            print(f"{BColors.CYELLOW}Wrong. :({BColors.ENDC}")
