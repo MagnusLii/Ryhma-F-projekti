@@ -1,7 +1,6 @@
 body {
   margin: auto;
   color: black;
-    padding-top: 5%;
     background-color: green;
 }
 
@@ -43,9 +42,77 @@ body {
 
 .otsikko {
     text-align: center;
-    border-right-style: solid;
-    border-top-style: solid;
     border-bottom-style: solid;
+    border-top-style: solid;
     border-left-style: solid;
+    border-right-style: solid;
+}
 
+.game-menu {
+    text-decoration: none;
+    background-color: darkblue;
+    color: black;
+    padding: 2%;
+    justify-content: flex-start;
+    border-radius: 50%;
+}
+
+.game-menu-div {
+    padding-top: 2%;
+}
+
+.rightside-gameinfo {
+    text-align: center;
+    flex-wrap: wrap;
+    padding-left: 80%;
+
+
+}
+
+.rightside-gameinfo p {
+
+
+
+}
+
+.gameinfo1 {
+    background-color: dodgerblue;
+    padding-bottom: 10%;
+    padding-top: 10%;
+}
+.gameinfo2 {
+    background-color: silver;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.gameinfo3 {
+    background-color: silver;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.gameinfo4 {
+    background-color: silver;
+    padding-top: 25%;
+    padding-bottom: 25%;
+}
+
+.gameinfo5 {
+    background-color: dodgerblue;
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+
+.gameinfo6 {
+    background-color: dodgerblue;
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+
+
+.singleplayer-body{
+    background-image: url("https://cdn.discordapp.com/attachments/1025783644347977771/1038807603121246268/cc31cab44f48e86ba0094bb8a1816973.jpg");
+    background-repeat: no-repeat;
+    background-size: 80%;
 }
