@@ -26,6 +26,7 @@ body {
     border-left-style: solid;
     border-top-style: solid;
     border-right-style: solid;
+    color: black;
 
 
 }
@@ -36,6 +37,7 @@ body {
      line-height: 80%;
     padding-left: 25%;
     padding-right: 25%;
+    list-style-type: none;
 
 }
 
